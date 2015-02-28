@@ -28,30 +28,40 @@ module.exports = (grunt) ->
                 spawn: false
             jade:
                 files: ["src/**/*.jade"]
-                tasks: ["jade"]
+                tasks: ["jade", "copy:release"]
             coffeescript:
                 files: ["src/**/*.coffee"]
-                tasks: ["coffee"]
+                tasks: ["coffee", "copy:release"]
             sass:
                 files: ["src/**/*.sass"]
-                tasks: ["sass"]
+                tasks: ["sass", "copy:release"]
         uglify:
             release:
                 files:
                     "release/app.min.js": ["build/app.js"]
-        clean:
-            build: "build"
-            release: "release"
+        clean: ["build/", "release/"]
         copy:
             release:
                 expand: true
                 cwd: "build"
-                src: "**/*.{html,css}"
+                src: "**/*.{html,css,js}"
+                dest: "release/"
+            static:
+                src: "static/**"
+                dest: "release/"
+            components:
+                src: "components/**"
                 dest: "release/"
         concat:
             sass:
                 src: "src/**/*.sass"
                 dest: "build/app.sass"
+        connect:
+            dev_server:
+                options: {
+                    port: 9001
+                    base: 'release'
+                }
 
     # Load plugins
     grunt.loadNpmTasks 'grunt-contrib-jade'
@@ -65,6 +75,8 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-contrib-clean'
     grunt.loadNpmTasks 'grunt-contrib-copy'
 
+    grunt.loadNpmTasks('grunt-contrib-connect');
+
     # Tasks
     grunt.registerTask 'build',[
         'clean',
@@ -73,5 +85,17 @@ module.exports = (grunt) ->
         'concat:sass',
         'sass'
     ]
-    grunt.registerTask 'default',['build', 'watch']
-    grunt.registerTask 'release',['build', 'uglify', 'copy']
+    grunt.registerTask 'default',[
+        'build',
+        'copy:release',
+        'copy:static'
+        'copy:components'
+        'connect',
+        'watch',
+    ]
+    grunt.registerTask 'release',[
+        'build',
+        'uglify',
+        'copy:release',
+        'copy:static'
+    ]

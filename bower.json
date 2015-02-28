@@ -17,8 +17,13 @@
     "tests"
   ],
   "dependencies": {
-    "angularjs": "1.3.8",
-    "bootstrap": "3.2.0",
-    "angular-strap": "2.1.5"
+    "angular": "1.3.14",
+    "angular-bootstrap": " 0.12.0",
+    "angular-loading-bar": "0.7.1",
+    "angular-route": "1.3.14",
+    "bootstrap": "3.2.0"
+  },
+  "resolutions": {
+    "angular": "1.3.14"
   }
 }
