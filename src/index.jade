@@ -19,36 +19,78 @@ html(class="no-js", ng-app="trackSeatsApp")
       href="components/angular-loading-bar/src/loading-bar.css"
     )
     link(rel="stylesheet", href="app.css")
+
+    script(type="text/javascript", src="components/angular/angular.js")
   body
-    nav(class="navbar navbar-default", ng-controller="NavigationCtrl as navigation")
+    nav(class="navbar navbar-default", ng-controller="LayoutNavigationCtrl as nav")
       .container-fluid
         .navbar-header
           button(type="button"
                  class="navbar-toggle collapsed"
-                 ng-click="navigation.toggleNavCollapsed()")
+                 ng-click="nav.toggleNavCollapsed()")
                   span.sr-only Toggle navigation
                   span.icon-bar
                   span.icon-bar
                   span.icon-bar
-          a(class="navbar-brand", href="#") TrackSeats
-        div(collapse="navigation.navCollapsed", class="collapse navbar-collapse")
-          ul(class="nav navbar-nav")
-            li.active
-              a Link 1
-            li
-              a Link 2
-            li
-              a Link 3
-            li
-              a Link 4
-    .jumbotron
-      h1 Track seats
-      p Tracking trains seats system
-      p
-        a(class="btn btn-primary btn-lg", href="#", role="button") Ok, lets rock!
+          a(class="navbar-brand", href="#") TrackSeats (Beta)
+        div(
+          collapse="nav.navCollapsed"
+          class="collapse navbar-collapse"
+          ng-cloak
+        )
+          ul(class="nav navbar-nav navbar-right"
+             ng-show="nav.session.authorized == true")
+            li(class="dropdown", dropdown, on-toggle="toggled(open)")
+              a(href="#"
+                class="dropdown-toggle"
+                role="button"
+                dropdown-toggle)
+                  span(class="glyphicon glyphicon-user", aria-hidden="true")
+                  | {{ nav.session.user.email }}
+                  span.caret
+              ul(class="dropdown-menu", role="menu")
+                li
+                  a
+                    span(class="glyphicon glyphicon-cog", aria-hidden="true")
+                    | Settings
+                li
+                  a
+                    span(class="glyphicon glyphicon-send", aria-hidden="true")
+                    | Invite friend
+                li
+                  a(ng-click="nav.signOut()")
+                    span(class="glyphicon glyphicon-log-out", aria-hidden="true")
+                    | Logout
+          form(class="navbar-form navbar-right"
+               ng-show="nav.session.authorized == false"
+               ng-submit="nav.signIn()")
+            .input-group
+              span(class="input-group-addon", id="email-addon") @
+              input(
+                required
+                type="text"
+                ng-model="nav.email"
+                class="form-control"
+                placeholder="Email"
+                aria-describedby="email-addon"
+              )
+            .input-group
+              span(class="input-group-addon", id="password-addon")
+                span(class="glyphicon glyphicon-asterisk", aria-hidden="true")
+              input(
+                required
+                type="password"
+                ng-model="nav.password"
+                class="form-control"
+                placeholder="Password"
+                aria-describedby="password-addon"
+              )
+            button(type="submit"
+                   class="btn btn-default") Sign in
+    section(ui-view)
+      h3.text-center Loading...
 
-    script(type="text/javascript", src="components/angular/angular.js")
-    script(type="text/javascript", src="components/angular-route/angular-route.js")
+    script(type="text/javascript", src="components/angular-ui-router/release/angular-ui-router.js")
     script(type="text/javascript", src="components/angular-bootstrap/ui-bootstrap-tpls.js")
     script(type="text/javascript", src="components/angular-bootstrap/ui-bootstrap.js")
     script(type="text/javascript", src="components/angular-loading-bar/src/loading-bar.js")

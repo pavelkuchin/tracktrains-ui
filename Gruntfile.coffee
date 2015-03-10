@@ -22,7 +22,7 @@ module.exports = (grunt) ->
         sass:
             compile:
                 files:
-                    "build/app.css": "build/app.sass"
+                    "build/app.css": "src/**/*.sass"
         watch:
             options:
                 spawn: false
@@ -58,16 +58,31 @@ module.exports = (grunt) ->
                 dest: "build/app.sass"
         connect:
             dev_server:
-                options: {
+                options:
                     port: 9001
                     base: 'release'
-                }
+                    debug: true
+                    logger: 'dev'
+                    middleware: (connect, options) ->
+                        proxy = require('grunt-connect-proxy/lib/utils').proxyRequest
+                        [
+                            # Include the proxy first
+                            proxy
+                            # Serve static files.
+                            connect.static(options.base[0])
+                            # Make empty directories browsable.
+                            connect.directory(options.base[0])
+                        ]
+                proxies:
+                    context: '/v1'
+                    port: 8081
+                    host: 'localhost'
 
     # Load plugins
     grunt.loadNpmTasks 'grunt-contrib-jade'
     grunt.loadNpmTasks 'grunt-contrib-coffee'
     grunt.loadNpmTasks 'grunt-sass'
-    grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks 'grunt-contrib-concat'
 
     grunt.loadNpmTasks 'grunt-contrib-watch'
 
@@ -75,7 +90,8 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-contrib-clean'
     grunt.loadNpmTasks 'grunt-contrib-copy'
 
-    grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks 'grunt-contrib-connect'
+    grunt.loadNpmTasks 'grunt-connect-proxy'
 
     # Tasks
     grunt.registerTask 'build',[
@@ -90,6 +106,7 @@ module.exports = (grunt) ->
         'copy:release',
         'copy:static'
         'copy:components'
+        'configureProxies:dev_server',
         'connect',
         'watch',
     ]
