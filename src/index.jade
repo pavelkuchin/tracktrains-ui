@@ -6,6 +6,7 @@ html(class="no-js", ng-app="trackSeatsApp")
     title Track seats
     meta(name='description', content='Train tickets tracker')
     meta(name='viewport', content='width=device-width, initial-scale=1')
+    script(type="text/javascript", src="components/angular/angular.js")
     link(
       rel="stylesheet"
       href="components/bootstrap/dist/css/bootstrap.min.css"
@@ -19,8 +20,6 @@ html(class="no-js", ng-app="trackSeatsApp")
       href="components/angular-loading-bar/src/loading-bar.css"
     )
     link(rel="stylesheet", href="app.css")
-
-    script(type="text/javascript", src="components/angular/angular.js")
   body
     nav(class="navbar navbar-default", ng-controller="LayoutNavigationCtrl as nav")
       .container-fluid
@@ -45,7 +44,9 @@ html(class="no-js", ng-app="trackSeatsApp")
                 class="dropdown-toggle"
                 role="button"
                 dropdown-toggle)
-                  span(class="glyphicon glyphicon-user", aria-hidden="true")
+                  span(
+                    class="glyphicon glyphicon-user"
+                    aria-hidden="true")
                   | {{ nav.session.user.email }}
                   span.caret
               ul(class="dropdown-menu", role="menu")
@@ -87,11 +88,20 @@ html(class="no-js", ng-app="trackSeatsApp")
               )
             button(type="submit"
                    class="btn btn-default") Sign in
+    div(
+      ng-show="alertsCtrl.alerts.messages"
+      ng-controller="LayoutAlertsCtrl as alertsCtrl"
+    )
+      alert(
+        ng-repeat="alert in alertsCtrl.alerts.messages"
+        type="{{alert.type}}"
+        close="alertsCtrl.closeAlert($index)"
+      )
+        {{ alert.msg }}
     section(ui-view)
       h3.text-center Loading...
 
     script(type="text/javascript", src="components/angular-ui-router/release/angular-ui-router.js")
     script(type="text/javascript", src="components/angular-bootstrap/ui-bootstrap-tpls.js")
-    script(type="text/javascript", src="components/angular-bootstrap/ui-bootstrap.js")
     script(type="text/javascript", src="components/angular-loading-bar/src/loading-bar.js")
     script(type="text/javascript", src="app.js")

@@ -1,8 +1,10 @@
 class PagesLandingCtrl
-  constructor: (session) ->
+  constructor: (session, $state) ->
+    if session.authorized
+      $state.go('tasks')
 
 angular
   .module('trackSeatsApp')
   .controller('PagesLandingCtrl', PagesLandingCtrl)
 
-PagesLandingCtrl.$inject = ['session']
+PagesLandingCtrl.$inject = ['session', '$state']

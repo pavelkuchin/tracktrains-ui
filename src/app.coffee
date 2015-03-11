@@ -22,21 +22,13 @@ angular.module 'trackSeatsApp', [
       abstract: true
       resolve:
         session: (AuthService) -> AuthService.checkAuthorization()
-      onEnter: (session, $state) ->
-        if not session.authorized
-          $state.go('landing')
     )
     .state("landing",
+      parent: "root"
       url: "/"
       templateUrl: "app/pages/landing/landing.html"
       controller: "PagesLandingCtrl as landing"
-      resolve:
-        session: (AuthService) -> AuthService.checkAuthorization()
-      onEnter: (session, $state) ->
-        if session.authorized
-          $state.go('tasks')
     )
-
     .state("tasks",
       parent: "root"
       url: "/tasks"
@@ -50,4 +42,12 @@ angular.module 'trackSeatsApp', [
   )
   $rootScope.$on(AUTH_EVENTS.AUTHORIZED, () ->
     $state.go('tasks')
+  )
+  AuthService.checkAuthorization().then (session) ->
+    $rootScope.$on('$stateChangeStart',
+      (event, toState, toParams, fromState, fromParams) ->
+        if session.authorized and toState.name == 'landing'
+          event.preventDefault()
+        if not session.authorized and toState.name != 'landing'
+          event.preventDefault()
   )

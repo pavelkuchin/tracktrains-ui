@@ -1,21 +1,22 @@
 class AuthService
-  constructor: (@dataService, @sessionService, @$q, @$rootScope) ->
+  constructor: (@dataService, @sessionService, @$q, @$rootScope, @alertsService) ->
     @session = @sessionService.get()
 
-  checkAuthorization: () ->
-    deferred = @$q.defer()
+    @deferred = @$q.defer()
     if @session.authorized == null
       @dataService.getSession()
       .success (data) =>
         @session.user = data
         @session.authorized = true
-        deferred.resolve(@session)
+        @deferred.resolve(@session)
       .error (data) =>
         @session.authorized = false
-        deferred.resolve(@session)
+        @deferred.resolve(@session)
     else
-      deferred.resolve(@session)
-    deferred.promise
+      @deferred.resolve(@session)
+
+  checkAuthorization: () ->
+    @deferred.promise
 
   signIn: (email, password) ->
     @dataService.signIn(email, password)
@@ -25,7 +26,10 @@ class AuthService
     .then ({data}) =>
       @session.user = data
       @$rootScope.$emit(AUTH_EVENTS.AUTHORIZED)
-    @session
+      @alertsService.showAlert("You are authorized.", @alertsService.TYPE.SUCCESS)
+      @session
+    .catch () =>
+      @alertsService.showAlert("Check your email and password.", @alertsService.TYPE.ERROR)
 
   signOut: () ->
     @dataService.signOut().then () =>
@@ -40,4 +44,7 @@ angular
   .module('trackSeatsApp')
   .service('AuthService', AuthService)
 
-AuthService.$inject = ['DataService', 'SessionService', '$q', '$rootScope']
+AuthService.$inject = [
+  'DataService', 'SessionService', '$q', '$rootScope',
+  'AlertsService'
+]
