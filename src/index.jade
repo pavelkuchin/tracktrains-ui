@@ -38,7 +38,7 @@ html(class="no-js", ng-app="trackSeatsApp")
           ng-cloak
         )
           ul(class="nav navbar-nav navbar-right"
-             ng-show="nav.session.authorized == true")
+             ng-show="nav.session.authenticated == true")
             li(class="dropdown", dropdown, on-toggle="toggled(open)")
               a(href="#"
                 class="dropdown-toggle"
@@ -63,7 +63,7 @@ html(class="no-js", ng-app="trackSeatsApp")
                     span(class="glyphicon glyphicon-log-out", aria-hidden="true")
                     | Logout
           form(class="navbar-form navbar-right"
-               ng-show="nav.session.authorized == false"
+               ng-show="nav.session.authenticated == false"
                ng-submit="nav.signIn()")
             .input-group
               span(class="input-group-addon", id="email-addon") @

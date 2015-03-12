@@ -1,12 +1,12 @@
 class LayoutNavigationCtrl
-  constructor: (@authService, @$state, @alertsService) ->
+  constructor: (@authService, @$state, @alertsService, @NAVIGATION) ->
     @navCollapsed = true
     @session = {}
 
     @email = ""
     @password = ""
 
-    @authService.checkAuthorization().then (session) =>
+    @authService.checkAuthentication().then (session) =>
       @session = session
 
   toggleNavCollapsed: () ->
@@ -16,7 +16,7 @@ class LayoutNavigationCtrl
     if @email and @password
       @authService.signIn(@email, @password)
         .then () =>
-          @$state.go('tasks')
+          @$state.go(@NAVIGATION.AUTHENTICATED_DEFAULT_STATE)
         .finally () =>
           @email = ""
           @password = ""
@@ -29,10 +29,10 @@ class LayoutNavigationCtrl
 
   signOut: () ->
     @authService.signOut()
-    @$state.go('landing')
+    @$state.go(@NAVIGATION.UNAUTHENTICATED_DEFAULT_STATE)
 
 angular
   .module('trackSeatsApp')
   .controller('LayoutNavigationCtrl', LayoutNavigationCtrl)
 
-LayoutNavigationCtrl.$inject = ['AuthService', '$state', 'AlertsService']
+LayoutNavigationCtrl.$inject = ['AuthService', '$state', 'AlertsService', 'NAVIGATION']

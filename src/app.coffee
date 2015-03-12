@@ -8,7 +8,7 @@ angular.module 'trackSeatsApp', [
   $httpProvider.interceptors.push ($q, $rootScope) ->
     'responseError': (rejection) ->
       if rejection.status == 401
-        $rootScope.$emit(AUTH_EVENTS.UNAUTHORIZED)
+        $rootScope.$emit(AUTH_EVENTS.UNAUTHENTICATED)
       $q.reject(rejection)
   $httpProvider.defaults.xsrfCookieName = 'csrftoken'
   $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken'
@@ -21,7 +21,7 @@ angular.module 'trackSeatsApp', [
       template: "<ui-view/>"
       abstract: true
       resolve:
-        session: (AuthService) -> AuthService.checkAuthorization()
+        session: (AuthService) -> AuthService.checkAuthentication()
     )
     .state("landing",
       parent: "root"
@@ -35,19 +35,21 @@ angular.module 'trackSeatsApp', [
       templateUrl: "app/pages/tasks/tasks.html"
       controller: "PagesTasksCtrl as tasks"
     )
-.run (AUTH_EVENTS, $rootScope, $state, SessionService, AuthService) ->
-  $rootScope.$on(AUTH_EVENTS.UNAUTHORIZED, () ->
-    SessionService.reset()
-    $state.go('landing')
+.run (AUTH_EVENTS, NAVIGATION, $rootScope, $state, AuthService) ->
+  $rootScope.$on(AUTH_EVENTS.UNAUTHENTICATED, () ->
+    AuthService.resetSession()
+    $state.go(NAVIGATION.UNAUTHENTICATED_DEFAULT_STATE)
   )
-  $rootScope.$on(AUTH_EVENTS.AUTHORIZED, () ->
-    $state.go('tasks')
+  $rootScope.$on(AUTH_EVENTS.AUTHENTICATED, () ->
+    $state.go(NAVIGATION.AUTHENTICATED_DEFAULT_STATE)
   )
-  AuthService.checkAuthorization().then (session) ->
+  AuthService.checkAuthentication().then (session) ->
     $rootScope.$on('$stateChangeStart',
       (event, toState, toParams, fromState, fromParams) ->
-        if session.authorized and toState.name == 'landing'
+        if session.authenticated and
+            toState.name == NAVIGATION.UNAUTHENTICATED_DEFAULT_STATE
           event.preventDefault()
-        if not session.authorized and toState.name != 'landing'
+        if not session.authenticated and
+            toState.name != NAVIGATION.UNAUTHENTICATED_DEFAULT_STATE
           event.preventDefault()
   )
