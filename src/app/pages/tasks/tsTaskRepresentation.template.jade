@@ -1,0 +1,43 @@
+.ts-task-representation(
+  ng-class="backgroundColor"
+)
+  .row(ng-hide="task.is_active")
+    .col-md-2
+      span.label.label-warning Inactive
+    .col-md-10
+      .text-center
+        h4 {{ task.train }} {{ task.departure_point }} - {{ task.destination_point }}
+  .row(ng-show="task.is_active && task.is_successful")
+    .col-md-2
+      span.label.label-success Found
+    .col-md-10
+      .text-center
+        h4 {{ task.train }} {{ task.departure_point }} - {{ task.destination_point }}
+  .row(ng-show="task.is_active && !task.is_successful")
+    .col-md-12
+      .text-center
+        h4 {{ task.train }} {{ task.departure_point }} - {{ task.destination_point }}
+
+  .row
+    .col-md-12 
+      .text-center {{ task.departure_date | date:'fullDate' }}
+  .row.ts-task-labels
+    .col-md-6
+      .text-center
+        span.label.label-default {{ task.car | tsCar }}
+    .col-md-6
+      .text-center
+        span.label.label-primary {{ task.seat | tsSeat }}
+  .row
+    .col-md-12.col-xs-12
+      .text-center.ts-task-buttons
+        .btn-group(role="group")
+          button.btn.btn-default(type="button")
+            span.glyphicon.glyphicon-pencil.ts-glyphicon
+            | Edit
+          button.btn.btn-default(type="button")
+            span.glyphicon.glyphicon-pause.ts-glyphicon
+            | Disable
+          button.btn.btn-danger(type="button")
+            span.glyphicon.glyphicon-remove.ts-glyphicon
+            | Delete

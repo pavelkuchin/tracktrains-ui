@@ -1,5 +1,5 @@
 class AuthService
-  constructor: (@dataService, @$q, @$rootScope, @alertsService) ->
+  constructor: (@dataService, @$q, @$rootScope) ->
     @session =
       authenticated: null
       user: {}
@@ -29,8 +29,6 @@ class AuthService
       @session.user = data
       @$rootScope.$emit(AUTH_EVENTS.AUTHENTICATED)
       @session
-    .catch () =>
-      @alertsService.showAlert("Check your email and password.", @alertsService.TYPE.ERROR)
 
   signOut: () ->
     @dataService.signOut().then () =>

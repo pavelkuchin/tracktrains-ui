@@ -17,6 +17,11 @@ class LayoutNavigationCtrl
       @authService.signIn(@email, @password)
         .then () =>
           @$state.go(@NAVIGATION.AUTHENTICATED_DEFAULT_STATE)
+        .catch (reason) =>
+          @alertsService.showAlert(
+            "User with this email/password has not been found.",
+            @alertsService.TYPE.ERROR
+          )
         .finally () =>
           @email = ""
           @password = ""
@@ -25,7 +30,6 @@ class LayoutNavigationCtrl
         "Please enter email and password.",
         @alertsService.TYPE.ERROR
       )
-
 
   signOut: () ->
     @authService.signOut()

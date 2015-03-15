@@ -1,4 +1,3 @@
-
 angular.module 'trackSeatsApp', [
     'angular-loading-bar'
     'ui.bootstrap'
@@ -35,7 +34,7 @@ angular.module 'trackSeatsApp', [
       templateUrl: "app/pages/tasks/tasks.html"
       controller: "PagesTasksCtrl as tasks"
     )
-.run (AUTH_EVENTS, NAVIGATION, $rootScope, $state, AuthService) ->
+.run (AUTH_EVENTS, NAVIGATION, $rootScope, $state, AuthService, AlertsService) ->
   $rootScope.$on(AUTH_EVENTS.UNAUTHENTICATED, () ->
     AuthService.resetSession()
     $state.go(NAVIGATION.UNAUTHENTICATED_DEFAULT_STATE)
@@ -46,6 +45,7 @@ angular.module 'trackSeatsApp', [
   AuthService.checkAuthentication().then (session) ->
     $rootScope.$on('$stateChangeStart',
       (event, toState, toParams, fromState, fromParams) ->
+        AlertsService.clearAlerts()
         if session.authenticated and
             toState.name == NAVIGATION.UNAUTHENTICATED_DEFAULT_STATE
           event.preventDefault()

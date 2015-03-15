@@ -45,22 +45,31 @@ html(class="no-js", ng-app="trackSeatsApp")
                 role="button"
                 dropdown-toggle)
                   span(
-                    class="glyphicon glyphicon-user"
+                    class="glyphicon glyphicon-user ts-glyphicon"
                     aria-hidden="true")
                   | {{ nav.session.user.email }}
                   span.caret
               ul(class="dropdown-menu", role="menu")
                 li
                   a
-                    span(class="glyphicon glyphicon-cog", aria-hidden="true")
+                    span(
+                      class="glyphicon glyphicon-cog ts-glyphicon"
+                      aria-hidden="true"
+                    )
                     | Settings
                 li
                   a
-                    span(class="glyphicon glyphicon-send", aria-hidden="true")
+                    span(
+                      class="glyphicon glyphicon-send ts-glyphicon"
+                      aria-hidden="true"
+                    )
                     | Invite friend
                 li
                   a(ng-click="nav.signOut()")
-                    span(class="glyphicon glyphicon-log-out", aria-hidden="true")
+                    span(
+                      class="glyphicon glyphicon-log-out ts-glyphicon"
+                      aria-hidden="true"
+                    )
                     | Logout
           form(class="navbar-form navbar-right"
                ng-show="nav.session.authenticated == false"
@@ -88,7 +97,7 @@ html(class="no-js", ng-app="trackSeatsApp")
               )
             button(type="submit"
                    class="btn btn-default") Sign in
-    div(
+    div.container-fluid(
       ng-show="alertsCtrl.alerts.messages"
       ng-controller="LayoutAlertsCtrl as alertsCtrl"
     )
@@ -98,7 +107,7 @@ html(class="no-js", ng-app="trackSeatsApp")
         close="alertsCtrl.closeAlert($index)"
       )
         {{ alert.msg }}
-    section(ui-view)
+    section.container-fluid(ui-view)
       h3.text-center Loading...
 
     script(type="text/javascript", src="components/angular-ui-router/release/angular-ui-router.js")

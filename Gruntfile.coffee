@@ -22,7 +22,7 @@ module.exports = (grunt) ->
         sass:
             compile:
                 files:
-                    "build/app.css": "src/**/*.sass"
+                    "build/app.css": "build/app.sass"
         watch:
             options:
                 spawn: false
@@ -34,7 +34,7 @@ module.exports = (grunt) ->
                 tasks: ["coffee", "copy:release"]
             sass:
                 files: ["src/**/*.sass"]
-                tasks: ["sass", "copy:release"]
+                tasks: ["concat:sass", "sass", "copy:release"]
         uglify:
             release:
                 files:
