@@ -7,19 +7,39 @@ tsTaskRepresentation = () ->
   restrict: 'EA'
   scope:
     task: '='
-    save: '&'
+    edit: '&'
+    enable: '&'
+    disable: '&'
     delete: '&'
-  link: link
-# XXX Refactor because this function is in global scope
-link = (scope, element, attrs) ->
+  link: tsTaskRepresentationLink
+# XXX Needs refactoring because this function is in the global scope
+tsTaskRepresentationLink = (scope, element, attrs) ->
   task = scope.task
-  if task
-    if task.is_active and not task.is_successful
-      scope.backgroundColor = 'ts-task-active-searching'
-    else if task.is_active and task.is_successful
-      scope.backgroundColor = 'ts-task-active-found'
-    else if not task.is_active
-      scope.backgroundColor = 'ts-task-inactive'
+
+  __calculateBackgroundColor = (task) ->
+    if task
+      if task.is_active and not task.is_successful
+        scope.backgroundColor = 'ts-task-active-searching'
+      else if task.is_active and task.is_successful
+        scope.backgroundColor = 'ts-task-active-found'
+      else if not task.is_active
+        scope.backgroundColor = 'ts-task-inactive'
+
+  __calculateBackgroundColor(task)
+
+  scope.tsTaskEdit = () ->
+    scope.edit({task: task})
+
+  scope.tsTaskEnable = () ->
+    scope.enable({task: task}).then () ->
+      __calculateBackgroundColor(task)
+
+  scope.tsTaskDisable = () ->
+    scope.disable({task: task}).then () ->
+      __calculateBackgroundColor(task)
+
+  scope.tsTaskDelete = () ->
+    scope.delete({task: task})
 
 angular
   .module('trackSeatsApp')

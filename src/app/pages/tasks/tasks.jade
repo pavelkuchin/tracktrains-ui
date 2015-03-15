@@ -3,4 +3,8 @@
     .col-md-3.col-sm-4.col-xs-12(ng-repeat="t in r")
       ts-task-representation(
         task="t"
+        edit="tasks.edit(task)"
+        disable="tasks.disable(task)"
+        enable="tasks.enable(task)"
+        delete="tasks.delete(task)"
       )

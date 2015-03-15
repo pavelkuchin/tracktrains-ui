@@ -16,6 +16,15 @@ class DataService
   getTasks: () ->
     @$http.get('/v1/byrwtask/')
 
+  disableTask: (task) ->
+    @$http.patch(task.resource_uri, {is_active: false})
+
+  enableTask: (task) ->
+    @$http.patch(task.resource_uri, {is_active: true})
+
+  deleteTask: (task) ->
+    @$http.delete(task.resource_uri)
+
 angular
   .module('trackSeatsApp')
   .service('DataService', DataService)
