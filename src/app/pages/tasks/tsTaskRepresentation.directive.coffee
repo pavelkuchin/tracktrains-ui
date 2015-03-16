@@ -15,6 +15,12 @@ tsTaskRepresentation = () ->
 # XXX Needs refactoring because this function is in the global scope
 tsTaskRepresentationLink = (scope, element, attrs) ->
   task = scope.task
+  scope.isEdit = false
+  scope.dt = null
+  scope.opened = false
+  scope.dateOptions =
+    startingDay: 1
+  scope.minDate = new Date()
 
   __calculateBackgroundColor = (task) ->
     if task
@@ -28,7 +34,8 @@ tsTaskRepresentationLink = (scope, element, attrs) ->
   __calculateBackgroundColor(task)
 
   scope.tsTaskEdit = () ->
-    scope.edit({task: task})
+    #scope.edit({task: task})
+    scope.isEdit = true
 
   scope.tsTaskEnable = () ->
     scope.enable({task: task}).then () ->
@@ -40,6 +47,18 @@ tsTaskRepresentationLink = (scope, element, attrs) ->
 
   scope.tsTaskDelete = () ->
     scope.delete({task: task})
+
+  scope.toggleDatepicker = ($event) ->
+    $event.preventDefault()
+    $event.stopPropagation()
+
+    scope.opened = !scope.opened
+
+  scope.saveEditing = () ->
+    scope.isEdit = false
+
+  scope.cancelEditing = () ->
+    scope.isEdit = false
 
 angular
   .module('trackSeatsApp')
