@@ -1,0 +1,67 @@
+.ts-task-edit
+  .row.departure-date
+    .col-md-12
+      .input-group
+        input.form-control(
+          type="text"
+          datepicker-popup="dd.MM.yyyy"
+          datepicker-options="dateOptions"
+          min-date="minDate"
+          ng-model="dt" 
+          is-open="opened"
+          ng-required="true"
+          close-text="Close"
+          placeholder="Departure date"
+        )
+        span.input-group-btn
+          button.btn.btn-default(
+            type="button"
+            ng-click="toggleDatepicker($event)"
+          )
+            i.glyphicon.glyphicon-calendar
+  .row.train
+    .col-md-12
+      input.form-control(
+        type="text" 
+        placeholder="Train"
+        ng-disabled="!dt"
+      )
+  .row.departure-city
+    .col-md-12
+      input.form-control(
+        type="text" 
+        placeholder="Departure city"
+        ng-disabled="!dt"
+      )
+  .row.destination-city
+    .col-md-12
+      input.form-control(
+        type="text" 
+        placeholder="Destination city"
+        ng-disabled="!dt"
+      )
+  .row.car
+    .col-md-12
+      select.form-control(ng-disabled="!dt")
+        option Any type of car
+        option VIP car
+        option Sleeping car
+        option Compartment car
+        option Reserved-berths car
+        option Car with regular seats
+        option Third-class car
+  .row.seat
+    .col-md-12
+      select.form-control(ng-disabled="!dt")
+        option Any type of seat
+        option Bottom place
+        option Top place
+        option Bottom place by side
+        option Top place by side
+  .row.actions
+    .col-md-6
+      .text-center
+        button.btn.btn-default(ng-click="cancelEditing()") Cancel
+    .col-md-6
+      .text-center
+        button.btn.btn-primary(ng-click="saveEditing()") Save

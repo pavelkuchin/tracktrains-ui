@@ -1,10 +1,20 @@
 .tasks-page
   .row.tasks-row(ng-repeat="r in tasks.tasksList")
-    .col-md-3.col-sm-4.col-xs-12(ng-repeat="t in r")
+    .col-md-3.col-sm-4.col-xs-12(
+      ng-repeat="t in r"
+      ng-init="editMode=false"
+    )
       ts-task-representation(
+        ng-hide="editMode"
         task="t"
-        edit="tasks.edit(task)"
+        edit-mode="editMode"
         disable="tasks.disable(task)"
         enable="tasks.enable(task)"
         delete="tasks.delete(task)"
+      )
+      ts-task-edit(
+        ng-show="editMode"
+        task="t"
+        edit-mode="editMode"
+        save="tasks.save(task)"
       )

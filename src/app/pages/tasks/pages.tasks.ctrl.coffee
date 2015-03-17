@@ -7,8 +7,8 @@ class PagesTasksCtrl extends SecurePages
       @initialTasksList = data.objects
       @tasksList = @__itemsToMatrix(@initialTasksList)
 
-  edit: (task) ->
-    console.log('Edit: ', task)
+  save: (task) ->
+    console.log('Save: ', task)
 
   disable: (task) ->
     @dataService.disableTask(task).then () ->
