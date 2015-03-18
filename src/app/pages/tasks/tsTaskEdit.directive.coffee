@@ -3,7 +3,7 @@
 # @example <ts-task-edit save="save()" task="task">
 #
 tsTaskEdit = () ->
-  templateUrl: 'app/pages/tasks/tsTaskEdit.html'
+  templateUrl: 'app/pages/tasks/tsTaskEdit.directive.html'
   restrict: 'EA'
   scope:
     task: '='

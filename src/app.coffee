@@ -25,13 +25,13 @@ angular.module 'trackSeatsApp', [
     .state("landing",
       parent: "root"
       url: "/"
-      templateUrl: "app/pages/landing/landing.html"
+      templateUrl: "app/pages/landing/pages.landing.template.html"
       controller: "PagesLandingCtrl as landing"
     )
     .state("tasks",
       parent: "root"
       url: "/tasks"
-      templateUrl: "app/pages/tasks/tasks.html"
+      templateUrl: "app/pages/tasks/pages.tasks.template.html"
       controller: "PagesTasksCtrl as tasks"
     )
 .run (AUTH_EVENTS, NAVIGATION, $rootScope, $state, AuthService, AlertsService) ->

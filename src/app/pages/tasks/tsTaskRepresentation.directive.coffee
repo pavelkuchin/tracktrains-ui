@@ -3,7 +3,7 @@
 # @example <ts-task-representation delete="delete()" task="task">
 #
 tsTaskRepresentation = () ->
-  templateUrl: 'app/pages/tasks/tsTaskRepresentation.html'
+  templateUrl: 'app/pages/tasks/tsTaskRepresentation.directive.html'
   restrict: 'EA'
   scope:
     task: '='

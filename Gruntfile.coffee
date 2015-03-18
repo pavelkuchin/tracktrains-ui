@@ -12,6 +12,7 @@ module.exports = (grunt) ->
                     src: "**/*.jade"
                     dest: "build"
                     ext: ".html"
+                    extDot: 'last'
                 ]
         coffee:
             options:
