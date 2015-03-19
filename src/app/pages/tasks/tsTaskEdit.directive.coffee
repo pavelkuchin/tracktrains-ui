@@ -19,6 +19,25 @@ tsTaskEditLink = (scope, element, attrs) ->
     startingDay: 1
   scope.minDate = new Date()
 
+  scope.cities = [
+    'Minsk',
+    'Gomel',
+    'Brest',
+    'Mogilev',
+    'Vitebsk',
+    'Grodno'
+  ]
+  scope.trains = [
+    'T345 Gomel - Minsk (14:33)',
+    'T564 Odessa - Minsk (15:42)',
+    'B493 Kiev - Minsk (12:34)'
+  ]
+
+  if task
+    scope.dt = task.departure_date
+    scope.departure = task.departure_point
+    scope.destination = task.destination_point
+
   scope.toggleDatepicker = ($event) ->
     $event.preventDefault()
     $event.stopPropagation()

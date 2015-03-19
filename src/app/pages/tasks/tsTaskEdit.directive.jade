@@ -11,7 +11,8 @@
           is-open="opened"
           ng-required="true"
           close-text="Close"
-          placeholder="Departure date"
+          placeholder="* Departure date (mandatory)"
+          ng-focus="toggleDatepicker($event)"
         )
         span.input-group-btn
           button.btn.btn-default(
@@ -19,30 +20,36 @@
             ng-click="toggleDatepicker($event)"
           )
             i.glyphicon.glyphicon-calendar
-  .row.train
+  .row.ts-bottom-margin
     .col-md-12
       input.form-control(
         type="text" 
-        placeholder="Train"
+        ng-model="departure"
+        placeholder="* Departure city (mandatory)"
+        typeahead="t for t in cities | filter:$viewValue"
         ng-disabled="!dt"
       )
-  .row.departure-city
+  .row.ts-bottom-margin
     .col-md-12
       input.form-control(
         type="text" 
-        placeholder="Departure city"
+        ng-model="destination"
+        placeholder="* Destination city (mandatory)"
+        typeahead="t for t in cities | filter:$viewValue"
         ng-disabled="!dt"
       )
-  .row.destination-city
+  .row.ts-bottom-margin
     .col-md-12
       input.form-control(
         type="text" 
-        placeholder="Destination city"
-        ng-disabled="!dt"
+        ng-model="train"
+        placeholder="Any train"
+        typeahead="t as t for t in trains | filter:$viewValue"
+        ng-disabled="!dt || !departure || !destination"
       )
-  .row.car
+  .row.ts-bottom-margin
     .col-md-12
-      select.form-control(ng-disabled="!dt")
+      select.form-control(ng-disabled="!dt || !departure || !destination")
         option Any type of car
         option VIP car
         option Sleeping car
@@ -50,18 +57,21 @@
         option Reserved-berths car
         option Car with regular seats
         option Third-class car
-  .row.seat
+  .row.ts-bottom-margin
     .col-md-12
-      select.form-control(ng-disabled="!dt")
+      select.form-control(ng-disabled="!dt || !departure || !destination")
         option Any type of seat
         option Bottom place
         option Top place
         option Bottom place by side
         option Top place by side
-  .row.actions
+  .row.ts-top-margin
     .col-md-6
       .text-center
         button.btn.btn-default(ng-click="cancelEditing()") Cancel
     .col-md-6
       .text-center
-        button.btn.btn-primary(ng-click="saveEditing()") Save
+        button.btn.btn-primary(
+          ng-disabled="!dt || !departure || !destination"
+          ng-click="saveEditing()"
+        ) Save
