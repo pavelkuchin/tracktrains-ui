@@ -9,34 +9,15 @@ tsTaskEdit = () ->
     task: '='
     editMode: '='
     save: '&'
+    getCities: '&'
+    getTrains: '&'
   link: tsTaskEditLink
 # XXX Needs refactoring because this function is in the global scope
 tsTaskEditLink = (scope, element, attrs) ->
-  task = scope.task
-  scope.dt = null
   scope.opened = false
   scope.dateOptions =
     startingDay: 1
   scope.minDate = new Date()
-
-  scope.cities = [
-    'Minsk',
-    'Gomel',
-    'Brest',
-    'Mogilev',
-    'Vitebsk',
-    'Grodno'
-  ]
-  scope.trains = [
-    'T345 Gomel - Minsk (14:33)',
-    'T564 Odessa - Minsk (15:42)',
-    'B493 Kiev - Minsk (12:34)'
-  ]
-
-  if task
-    scope.dt = task.departure_date
-    scope.departure = task.departure_point
-    scope.destination = task.destination_point
 
   scope.toggleDatepicker = ($event) ->
     $event.preventDefault()
@@ -45,11 +26,33 @@ tsTaskEditLink = (scope, element, attrs) ->
     scope.opened = !scope.opened
 
   scope.saveEditing = () ->
-    scope.save({task: task})
+    copyScopeToTask()
+    scope.save({task: scope.task})
     scope.editMode = false
 
   scope.cancelEditing = () ->
+    copyTaskToScope()
     scope.editMode = false
+
+  copyTaskToScope = () ->
+    task = scope.task
+    scope.departure_date = task.departure_date
+    scope.departure_point = task.departure_point
+    scope.destination_point = task.destination_point
+    scope.train = task.train
+    scope.car = task.car
+    scope.seat = task.seat
+
+  copyScopeToTask = () ->
+    task = scope.task
+    task.departure_date = scope.departure_date
+    task.departure_point = scope.departure_point
+    task.destination_point = scope.destination_point
+    task.train = scope.train
+    task.car = scope.car
+    task.seat = scope.seat
+  # XXX Require refactoring
+  copyTaskToScope()
 
 angular
   .module('trackSeatsApp')

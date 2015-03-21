@@ -1,5 +1,5 @@
 class PagesTasksCtrl extends SecurePages
-  constructor: (@dataService) ->
+  constructor: (@dataService, @$q, @alertsService) ->
     @tasksList = []
     @initialTasksList
 
@@ -8,7 +8,11 @@ class PagesTasksCtrl extends SecurePages
       @tasksList = @__itemsToMatrix(@initialTasksList)
 
   save: (task) ->
-    console.log('Save: ', task)
+    @dataService.saveTask(task).then () =>
+      @alertsService.showAlert(
+        "The task successfully saved!",
+        @alertsService.TYPE.SUCCESS
+      )
 
   disable: (task) ->
     @dataService.disableTask(task).then () ->
@@ -36,9 +40,25 @@ class PagesTasksCtrl extends SecurePages
       result.push tmp
     result
 
+  getCities: (city) ->
+    cities = [
+      'МИНСК',
+      'ГОМЕЛЬ',
+      'БРЕСТ',
+      'МОГИЛЕВ',
+      'ВИТЕБСК',
+      'ГРОДНО'
+    ]
+
+  getTrains: (train) ->
+    trains = [
+      'T345 Gomel - Minsk (14:33)',
+      'T564 Odessa - Minsk (15:42)',
+      'B493 Kiev - Minsk (12:34)'
+    ]
 
 angular
   .module('trackSeatsApp')
   .controller('PagesTasksCtrl', PagesTasksCtrl)
 
-PagesTasksCtrl.$inject = ['DataService']
+PagesTasksCtrl.$inject = ['DataService', '$q', 'AlertsService']

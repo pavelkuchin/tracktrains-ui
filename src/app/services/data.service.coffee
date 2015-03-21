@@ -25,6 +25,12 @@ class DataService
   deleteTask: (task) ->
     @$http.delete(task.resource_uri)
 
+  saveTask: (task) ->
+    if task.resource_uri
+      @$http.put(task.resource_uri, task)
+    else
+      @$http.post('/v1/byrwtask/', task)
+
 angular
   .module('trackSeatsApp')
   .service('DataService', DataService)

@@ -7,7 +7,7 @@
           datepicker-popup="dd.MM.yyyy"
           datepicker-options="dateOptions"
           min-date="minDate"
-          ng-model="dt" 
+          ng-model="departure_date"
           is-open="opened"
           ng-required="true"
           close-text="Close"
@@ -24,19 +24,19 @@
     .col-md-12
       input.form-control(
         type="text" 
-        ng-model="departure"
+        ng-model="departure_point"
         placeholder="* Departure city (mandatory)"
-        typeahead="t for t in cities | filter:$viewValue"
-        ng-disabled="!dt"
+        typeahead="c for c in getCities({city: $viewValue})"
+        ng-disabled="!departure_date"
       )
   .row.ts-bottom-margin
     .col-md-12
       input.form-control(
         type="text" 
-        ng-model="destination"
+        ng-model="destination_point"
         placeholder="* Destination city (mandatory)"
-        typeahead="t for t in cities | filter:$viewValue"
-        ng-disabled="!dt"
+        typeahead="c for c in getCities({city: $viewValue})"
+        ng-disabled="!departure_date"
       )
   .row.ts-bottom-margin
     .col-md-12
@@ -44,27 +44,33 @@
         type="text" 
         ng-model="train"
         placeholder="Any train"
-        typeahead="t as t for t in trains | filter:$viewValue"
-        ng-disabled="!dt || !departure || !destination"
+        typeahead="t for t in getTrains({train: $viewValue})"
+        ng-disabled="!departure_date || !departure_point || !destination_point"
       )
   .row.ts-bottom-margin
     .col-md-12
-      select.form-control(ng-disabled="!dt || !departure || !destination")
-        option Any type of car
-        option VIP car
-        option Sleeping car
-        option Compartment car
-        option Reserved-berths car
-        option Car with regular seats
-        option Third-class car
+      select.form-control(
+        ng-disabled="!departure_date || !departure_point || !destination_point"
+        ng-model="car"
+      )
+        option(value="ANY") Any type of car
+        option(value="VIP") VIP car
+        option(value="SLE") Sleeping car
+        option(value="COM") Compartment car
+        option(value="RB") Reserved-berths car
+        option(value="RS") Car with regular seats
+        option(value="TC") Third-class car
   .row.ts-bottom-margin
     .col-md-12
-      select.form-control(ng-disabled="!dt || !departure || !destination")
-        option Any type of seat
-        option Bottom place
-        option Top place
-        option Bottom place by side
-        option Top place by side
+      select.form-control(
+        ng-disabled="!departure_date || !departure_point || !destination_point"
+        ng-model="seat"
+      )
+        option(value="ANY") Any type of seat
+        option(value="B") Bottom place
+        option(value="T") Top place
+        option(value="BS") Bottom place by side
+        option(value="TS") Top place by side
   .row.ts-top-margin
     .col-md-6
       .text-center
@@ -72,6 +78,6 @@
     .col-md-6
       .text-center
         button.btn.btn-primary(
-          ng-disabled="!dt || !departure || !destination"
+          ng-disabled="!departure_date || !departure_point || !destination_point"
           ng-click="saveEditing()"
         ) Save

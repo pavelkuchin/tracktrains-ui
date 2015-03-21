@@ -105,8 +105,7 @@ html(class="no-js", ng-app="trackSeatsApp")
         ng-repeat="alert in alertsCtrl.alerts.messages"
         type="{{alert.type}}"
         close="alertsCtrl.closeAlert($index)"
-      )
-        {{ alert.msg }}
+      ) {{ alert.msg }}
     section.container-fluid(ui-view)
       h3.text-center Loading...
 
