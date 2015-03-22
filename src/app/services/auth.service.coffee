@@ -4,21 +4,22 @@ class AuthService
       authenticated: null
       user: {}
 
-    @deferred = @$q.defer()
+    @deferredSession = @$q.defer()
+
     if @session.authenticated == null
       @dataService.getSession()
       .success (data) =>
         @session.user = data
         @session.authenticated = true
-        @deferred.resolve(@session)
+        @deferredSession.resolve(@session)
       .error (data) =>
         @session.authenticated = false
-        @deferred.resolve(@session)
+        @deferredSession.resolve(@session)
     else
-      @deferred.resolve(@session)
+      @deferredSession.resolve(@session)
 
   checkAuthentication: () ->
-    @deferred.promise
+    @deferredSession.promise
 
   signIn: (email, password) ->
     @dataService.signIn(email, password)

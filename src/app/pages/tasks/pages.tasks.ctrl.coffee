@@ -1,11 +1,30 @@
-class PagesTasksCtrl extends SecurePages
-  constructor: (@dataService, @$q, @alertsService) ->
+class PagesTasksCtrl
+  constructor: (@session, @dataService, @$q, @alertsService) ->
     @tasksList = []
-    @initialTasksList
+    @initialTasksList = []
 
-    dataService.getTasks().then ({data}) =>
+    @tasksFilter = ''
+
+    @newTask = null
+    @createNewTask = false
+
+    @dataService.getTasks().then ({data}) =>
       @initialTasksList = data.objects
-      @tasksList = @__itemsToMatrix(@initialTasksList)
+      @tasksList = _.chunk(@initialTasksList, 4)
+
+  createTask: () ->
+    @newTask =
+      resource_uri: ''
+      departure_date: ''
+      departure_point: ''
+      destination_point: ''
+      train: ''
+      car: 'ANY'
+      seat: 'ANY'
+      is_active: true
+      owner: @session.user.resource_uri
+
+    @createNewTask = true
 
   save: (task) ->
     @dataService.saveTask(task).then () =>
@@ -13,6 +32,10 @@ class PagesTasksCtrl extends SecurePages
         "The task successfully saved!",
         @alertsService.TYPE.SUCCESS
       )
+      if not task.resource_uri
+        @dataService.getTasks().then ({data}) =>
+          @initialTasksList = data.objects
+          @tasksList = _.chunk(@initialTasksList, 4)
 
   disable: (task) ->
     @dataService.disableTask(task).then () ->
@@ -26,19 +49,7 @@ class PagesTasksCtrl extends SecurePages
   delete: (task) ->
     @dataService.deleteTask(task).then () =>
       _.remove(@initialTasksList, task)
-      @tasksList = @__itemsToMatrix(@initialTasksList)
-
-  __itemsToMatrix: (items, itemsInRow = 4) ->
-    result = []
-    tmp = []
-    for item, i in items
-      if (i % itemsInRow) == 0 and tmp.length
-        result.push tmp
-        tmp = []
-      tmp.push item
-    if tmp.length
-      result.push tmp
-    result
+      @tasksList = _.chunk(@initialTasksList, 4)
 
   getCities: (city) ->
     cities = [
@@ -52,13 +63,13 @@ class PagesTasksCtrl extends SecurePages
 
   getTrains: (train) ->
     trains = [
-      'T345 Gomel - Minsk (14:33)',
-      'T564 Odessa - Minsk (15:42)',
-      'B493 Kiev - Minsk (12:34)'
+      'T345',
+      'T564',
+      'B493'
     ]
 
 angular
   .module('trackSeatsApp')
   .controller('PagesTasksCtrl', PagesTasksCtrl)
 
-PagesTasksCtrl.$inject = ['DataService', '$q', 'AlertsService']
+PagesTasksCtrl.$inject = ['session', 'DataService', '$q', 'AlertsService']

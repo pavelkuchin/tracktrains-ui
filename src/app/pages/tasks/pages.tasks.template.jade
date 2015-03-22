@@ -1,4 +1,32 @@
 .tasks-page
+  .row
+    .col-md-12
+      .toolbar
+        .row
+          .col-md-3
+            input.form-control(
+              type="text"
+              ng-model="tasks.tasksFilter"
+              placeholder="Filter"
+            )
+          .col-md-3
+            button.btn.btn-primary(
+              ng-click="tasks.createTask()"
+            )
+              span.glyphicon.glyphicon-plus.ts-glyphicon
+              | Create new task
+  .row.tasks-row(ng-if="tasks.createNewTask")
+    .col-md-4
+    .col-md-4
+      ts-task-edit(
+        ng-show="tasks.createNewTask"
+        task="tasks.newTask"
+        edit-mode="tasks.createNewTask"
+        save="tasks.save(task)"
+        get-cities="tasks.getCities(city)"
+        get-trains="tasks.getTrains(train)"
+      )
+    .col-md-4
   .row.tasks-row(ng-repeat="r in tasks.tasksList")
     .col-md-3.col-sm-4.col-xs-12(
       ng-repeat="t in r"
