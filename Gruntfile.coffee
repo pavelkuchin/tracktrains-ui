@@ -106,9 +106,9 @@ module.exports = (grunt) ->
         'clean',
         'jade',
         'coffee',
-        'karma',
         'concat:sass',
         'sass'
+        'karma',
     ]
     grunt.registerTask 'default',[
         'build',
