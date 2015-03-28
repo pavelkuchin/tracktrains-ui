@@ -20,7 +20,8 @@ module.exports = (grunt) ->
                 sourceMap: true
             compile:
                 files:
-                    "build/app.js": "src/**/*.coffee"
+                    "build/app.spec.js": "src/**/*.spec.coffee"
+                    "build/app.js": ["src/**/*.coffee", "!src/**/*.spec.coffee"]
         sass:
             compile:
                 files:
@@ -46,7 +47,7 @@ module.exports = (grunt) ->
             release:
                 expand: true
                 cwd: "build"
-                src: "**/*.{html,css,js}"
+                src: "**/*.{html,css,js,js.map}"
                 dest: "release/"
             static:
                 src: "static/**"
@@ -79,6 +80,9 @@ module.exports = (grunt) ->
                     context: '/v1'
                     port: 8081
                     host: 'localhost'
+        karma:
+          unit:
+            configFile: 'karma.conf.coffee'
 
     # Load plugins
     grunt.loadNpmTasks 'grunt-contrib-jade'
@@ -95,11 +99,14 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-contrib-connect'
     grunt.loadNpmTasks 'grunt-connect-proxy'
 
+    grunt.loadNpmTasks 'grunt-karma'
+
     # Tasks
     grunt.registerTask 'build',[
         'clean',
         'jade',
         'coffee',
+        'karma',
         'concat:sass',
         'sass'
     ]
