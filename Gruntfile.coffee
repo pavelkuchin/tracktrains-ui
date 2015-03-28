@@ -83,6 +83,10 @@ module.exports = (grunt) ->
         karma:
           unit:
             configFile: 'karma.conf.coffee'
+        coveralls:
+          options:
+            coverageDir: './coveralls'
+            recursive: true
 
     # Load plugins
     grunt.loadNpmTasks 'grunt-contrib-jade'
@@ -100,8 +104,13 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-connect-proxy'
 
     grunt.loadNpmTasks 'grunt-karma'
+    grunt.loadNpmTasks 'grunt-karma-coveralls'
 
     # Tasks
+    grunt.registerTask 'test',[
+        'karma'
+        'coveralls'
+    ]
     grunt.registerTask 'build',[
         'clean',
         'jade',

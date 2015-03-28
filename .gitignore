@@ -2,3 +2,5 @@ components/
 build/
 node_modules/
 release/
+coveralls/
+npm-debug.log

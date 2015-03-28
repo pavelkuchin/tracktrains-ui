@@ -6,6 +6,7 @@ module.exports = (config) ->
         plugins: [
           'karma-phantomjs-launcher'
           'karma-jasmine'
+          'karma-coverage'
         ]
 
         # frameworks to use
@@ -19,8 +20,7 @@ module.exports = (config) ->
             'components/angular-bootstrap/ui-bootstrap-tpls.js'
             'components/angular-loading-bar/src/loading-bar.js'
             'components/lodash/lodash.js'
-            'build/app.js',
-            'build/app.spec.js'
+            'src/**/*.coffee'
         ]
 
         # list of files to exclude
@@ -28,7 +28,15 @@ module.exports = (config) ->
         ]
 
         # test results reporter to use
-        reporters: ['progress']
+        reporters: ['progress', 'coverage']
+
+        preprocessors:
+          'src/**/*.coffee': ['coverage']
+
+        coverageReporter: {
+          type : 'lcovonly',
+          dir : 'coveralls/'
+        }
 
         # web server port
         port: 9876
@@ -37,7 +45,7 @@ module.exports = (config) ->
         colors: true
 
         # level of logging
-        logLevel: config.LOG_DEBUG
+        logLevel: config.LOG_INFO
 
         # enable / disable watching file and executing tests whenever any file changes
         autoWatch: false
