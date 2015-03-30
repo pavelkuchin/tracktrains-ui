@@ -1,7 +1,7 @@
 describe 'LayoutAlertsCtrl', () ->
   beforeEach(module('trackSeatsApp'))
 
-  describe '$scope.alerts', () ->
+  describe 'controller.alerts', () ->
     beforeEach(inject(($rootScope, $controller) =>
       alertsService =
         alerts:
