@@ -4,8 +4,8 @@
 
   Navigation controller (part of layout)
   is responsible for responsive menu support (collapsed menu)
-                 appropriate menu representation (sign in form for unauthorized)
-                                                 (user menu for authorized)
+                 appropriate menu representation (sign in form for unauthenticated)
+                                                 (user menu for authenticated)
                  sign in and sign out actions
 
   Should expose:
