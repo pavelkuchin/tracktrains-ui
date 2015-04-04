@@ -1,3 +1,13 @@
+###
+  The MIT License (MIT)
+  Copyright (c) 2015 TrackSeats.info
+
+  The Train Seat types filter
+
+  This filter convert seat/place type from short code to user-friendly string representation
+
+  Example: {{ shortCode | tsSeat }}
+###
 tsSeatFilter = () ->
   (input) ->
     switch input

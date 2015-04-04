@@ -4,7 +4,7 @@
 
   The Train Car types filter
 
-  This filter convert car type short code to user-friendly string representation
+  This filter convert car type from short code to user-friendly string representation
 
   Example: {{ shortCode | tsCar }}
 ###
