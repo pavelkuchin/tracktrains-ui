@@ -1,3 +1,13 @@
+###
+  The MIT License (MIT)
+  Copyright (c) 2015 TrackSeats.info
+
+  The Train Car types filter
+
+  This filter convert car type short code to user-friendly string representation
+
+  Example: {{ shortCode | tsCar }}
+###
 tsCarFilter = () ->
   (input) ->
     switch input
