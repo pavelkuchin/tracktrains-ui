@@ -1,7 +1,7 @@
 describe 'LayoutNavigationCtrl', () ->
   beforeEach(module('trackSeatsApp'))
 
-  beforeEach(inject((@$rootScope, $controller, DataService, $httpBackend,
+  beforeEach(inject((@$rootScope, $controller, $httpBackend,
                      @$q, @ALERTS_TYPE, @NAVIGATION) =>
     $httpBackend.when('GET', '/v1/user/session/').respond({})
     $httpBackend.when('GET', 'app/pages/landing/pages.landing.template.html')
