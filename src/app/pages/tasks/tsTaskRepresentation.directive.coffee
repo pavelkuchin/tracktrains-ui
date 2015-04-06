@@ -1,7 +1,23 @@
-#
-# @desc Task representation (action enable/disable/delete)
-# @example <ts-task-representation delete="delete()" task="task">
-#
+###
+  The MIT License (MIT)
+  Copyright (c) 2015 TrackSeats.info
+
+  @desc Task representation (action enable/disable/delete)
+  @example
+  <ts-task-edit
+    task="task"
+    edit-mode="editEnabled"
+    enable="enableTask(task)"
+    disable="disableTask(task)"
+    delete="deleteTask(task)">
+
+  task - the new or existing task
+  edit-mode - the flag that provides information about state change
+              (usually it is used on page layer in order to hide component)
+  enable - the reference to the controller function for disabling task
+  disable - the reference to the controller function for enabling task
+  delete - the reference to the controller function for deleting task
+###
 tsTaskRepresentation = () ->
   templateUrl: 'app/pages/tasks/tsTaskRepresentation.directive.html'
   restrict: 'EA'

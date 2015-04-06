@@ -1,7 +1,23 @@
-#
-# @desc task edit directive
-# @example <ts-task-edit save="save()" task="task">
-#
+###
+  The MIT License (MIT)
+  Copyright (c) 2015 TrackSeats.info
+
+  @desc The directive that represent the task edit form
+  @example
+  <ts-task-edit
+    save="save()"
+    task="task"
+    edit-mode="editEnabled"
+    get-cities="getCities(city)"
+    get-trains="getTrains(train)">
+
+  save - the reference to the controller's save() method
+  task - the new or existing task
+  edit-mode - the flag that provides information about state change
+              (usually it is used on page layer in order to hide component)
+  get-cities - the reference to controller method that will be used to filter cities
+  get-trains - the reference to controller method that will be used to filter trains
+###
 tsTaskEdit = () ->
   templateUrl: 'app/pages/tasks/tsTaskEdit.directive.html'
   restrict: 'EA'
