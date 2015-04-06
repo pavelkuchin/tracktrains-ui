@@ -1,4 +1,5 @@
 # Disabled because unittests for directives is extra efforts at the point
+###
 xdescribe 'tsTaskEdit', () ->
   beforeEach(module('trackSeatsApp'))
 
@@ -28,3 +29,4 @@ xdescribe 'tsTaskEdit', () ->
     expect(html).toContain(@scope.task.departure_point)
     expect(html).toContain(@scope.task.destination_point)
     expect(html).toContain(@scope.task.train)
+###
