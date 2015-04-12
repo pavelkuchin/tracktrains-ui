@@ -1,5 +1,21 @@
+###
+  The MIT License (MIT)
+  Copyright (c) 2015 TrackSeats.info
+
+  The service is supporting authentification procedure
+
+  In constructor it requested session from server (session is current user object)
+  if response is successful then session.user is current user object and session.authenticated is true
+  if response is fail then authenticated is false and user is still empty object
+
+  Methods:
+    checkAuthentication() - return the session as promise
+    signIn(email, password) - trying to sign in user to the system, resolve session if success
+    signOut() - sign user out of the system, reset session if success
+    resetSession() - reset the session, session.authenticated is false and session.user is empty object
+###
 class AuthService
-  constructor: (@dataService, @$q, @$rootScope) ->
+  constructor: (@dataService, @$q, @$rootScope, AUTH_EVENTS) ->
     @session =
       authenticated: null
       user: {}
@@ -47,5 +63,5 @@ angular
 
 AuthService.$inject = [
   'DataService', '$q', '$rootScope',
-  'AlertsService'
+  'AlertsService', 'AUTH_EVENTS'
 ]

@@ -1,3 +1,22 @@
+###
+  The MIT License (MIT)
+  Copyright (c) 2015 TrackSeats.info
+
+  The data service intended to request and send data to server.
+
+  The simpliest http calls wrapper with basic logic
+
+  Methods:
+    signIn(email, password) - the user authentication call
+    signOut() - the call for close user session
+    getSession() - return the current user
+    getTasks() - return the tasks list
+    disableTask(task) - disable task (it will not be executed)
+    enableTask(task) - enable task
+    deleteTask(task) - delete task
+    saveTask(task) - create a new task if task.resource_uri is undefined
+                     update an existing task if task.resource_uri is defined
+###
 class DataService
   constructor: (@$http) ->
 
