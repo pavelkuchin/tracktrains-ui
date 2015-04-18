@@ -21,82 +21,76 @@ html(class="no-js", ng-app="trackSeatsApp")
     )
     link(rel="stylesheet", href="app.css")
   body
-    nav(class="navbar navbar-default", ng-controller="LayoutNavigationCtrl as nav")
+    nav.navbar.navbar-default(ng-controller="LayoutNavigationCtrl as nav")
       .container-fluid
         .navbar-header
-          button(type="button"
-                 class="navbar-toggle collapsed"
-                 ng-click="nav.toggleNavCollapsed()")
+          button.navbar-toggle.collapsed(
+            type="button"
+            ng-click="nav.toggleNavCollapsed()"
+          )
                   span.sr-only Toggle navigation
                   span.icon-bar
                   span.icon-bar
                   span.icon-bar
-          a(class="navbar-brand", href="#") TrackSeats (Beta)
-        div(
+          a.navbar-brand(href="#") TrackSeats (Beta)
+        div.collapse.navbar-collapse(
           collapse="nav.navCollapsed"
-          class="collapse navbar-collapse"
           ng-cloak
         )
-          ul(class="nav navbar-nav navbar-right"
-             ng-show="nav.session.authenticated == true")
+          ul.nav.navbar-nav.navbar-right(
+            ng-show="nav.session.authenticated == true"
+          )
             li(class="dropdown", dropdown, on-toggle="toggled(open)")
-              a(href="#"
-                class="dropdown-toggle"
+              a.dropdown-toggle(href="#"
                 role="button"
                 dropdown-toggle)
-                  span(
-                    class="glyphicon glyphicon-user ts-glyphicon"
+                  span.glyphicon.glyphicon-user.ts-glyphicon(
                     aria-hidden="true")
                   | {{ nav.session.user.email }}
                   span.caret
-              ul(class="dropdown-menu", role="menu")
+              ul.dropdown-menu(role="menu")
                 li
                   a
-                    span(
-                      class="glyphicon glyphicon-cog ts-glyphicon"
+                    span.glyphicon.glyphicon-cog.ts-glyphicon(
                       aria-hidden="true"
                     )
                     | Settings
                 li
                   a
-                    span(
-                      class="glyphicon glyphicon-send ts-glyphicon"
+                    span.glyphicon.glyphicon-send.ts-glyphicon(
                       aria-hidden="true"
                     )
                     | Invite friend
                 li
                   a(ng-click="nav.signOut()")
-                    span(
-                      class="glyphicon glyphicon-log-out ts-glyphicon"
+                    span.glyphicon.glyphicon-log-out.ts-glyphicon(
                       aria-hidden="true"
                     )
                     | Logout
-          form(class="navbar-form navbar-right"
-               ng-show="nav.session.authenticated == false"
-               ng-submit="nav.signIn()")
+          form.navbar-form.navbar-right(
+            ng-show="nav.session.authenticated == false"
+            ng-submit="nav.signIn()"
+          )
             .input-group
-              span(class="input-group-addon", id="email-addon") @
-              input(
+              span.input-group-addon(id="email-addon") @
+              input.form-control(
                 required
                 type="text"
                 ng-model="nav.email"
-                class="form-control"
                 placeholder="Email"
                 aria-describedby="email-addon"
               )
             .input-group
-              span(class="input-group-addon", id="password-addon")
-                span(class="glyphicon glyphicon-asterisk", aria-hidden="true")
-              input(
+              span.input-group-addon(id="password-addon")
+                span.glyphicon.glyphicon-asterisk( aria-hidden="true")
+              input.form-control(
                 required
                 type="password"
                 ng-model="nav.password"
-                class="form-control"
                 placeholder="Password"
                 aria-describedby="password-addon"
               )
-            button(type="submit"
-                   class="btn btn-default") Sign in
+            button.btn.btn-default(type="submit") Sign in
     div.container-fluid(
       ng-show="alertsCtrl.alerts.messages"
       ng-controller="LayoutAlertsCtrl as alertsCtrl"
@@ -105,7 +99,20 @@ html(class="no-js", ng-app="trackSeatsApp")
         ng-repeat="alert in alertsCtrl.alerts.messages"
         type="{{alert.type}}"
         close="alertsCtrl.closeAlert($index)"
-      ) {{ alert.msg }}
+      )
+        span.glyphicon.glyphicon-exclamation-sign.ts-glyphicon(
+          aria-hidden="true"
+          ng-show="alert.type=='danger'"
+        )
+        span.sr-only(ng-show="alert.type=='danger'") Error:
+
+        span.glyphicon.glyphicon-ok-sign.ts-glyphicon(
+          aria-hidden="true"
+          ng-show="alert.type=='success'"
+        )
+        span.sr-only(ng-show="alert.type=='success'") Information:
+
+        | {{ alert.msg }}
     section.container-fluid(ui-view)
       h3.text-center Loading...
 

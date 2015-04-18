@@ -4,11 +4,22 @@ angular.module 'trackSeatsApp', [
     'ui.router'
   ]
 .config ($httpProvider, $stateProvider, $urlRouterProvider, AUTH_EVENTS) ->
-  $httpProvider.interceptors.push ($q, $rootScope) ->
+  $httpProvider.interceptors.push ($q, $rootScope, AlertsService) ->
     'responseError': (rejection) ->
       if rejection.status == 401
         $rootScope.$emit(AUTH_EVENTS.UNAUTHENTICATED)
+      if rejection.status >= 500
+        AlertsService.showAlert(
+          'Something went wrong, we will try to fix it, please try later.',
+          AlertsService.TYPE.ERROR
+        )
+      if rejection.status == 0
+        AlertsService.showAlert(
+          'Connection troubles, please try later.',
+          AlertsService.TYPE.ERROR
+        )
       $q.reject(rejection)
+
   $httpProvider.defaults.xsrfCookieName = 'csrftoken'
   $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken'
 
