@@ -57,7 +57,8 @@ describe 'LayoutNavigationCtrl', () ->
       expect(@stubAlertsService.showAlert)
         .toHaveBeenCalledWith(
           "Please enter email and password.",
-          @ALERTS_TYPE.ERROR
+          @ALERTS_TYPE.ERROR,
+          3000
         )
 
     it 'if email or/and password are invalid then message should be displayed
@@ -81,7 +82,8 @@ describe 'LayoutNavigationCtrl', () ->
 
       expect(@stubAlertsService.showAlert).toHaveBeenCalledWith(
         "User with this email/password has not been found.",
-        @ALERTS_TYPE.ERROR)
+        @ALERTS_TYPE.ERROR,
+        3000)
 
       expect(@controller.email).toEqual('')
       expect(@controller.password).toEqual('')

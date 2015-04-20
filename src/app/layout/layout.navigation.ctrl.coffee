@@ -43,7 +43,8 @@ class LayoutNavigationCtrl
         .catch (reason) =>
           @alertsService.showAlert(
             'User with this email/password has not been found.',
-            @alertsService.TYPE.ERROR
+            @alertsService.TYPE.ERROR,
+            3000
           )
         .finally () =>
           @email = ''
@@ -51,7 +52,8 @@ class LayoutNavigationCtrl
     else
       @alertsService.showAlert(
         'Please enter email and password.',
-        @alertsService.TYPE.ERROR
+        @alertsService.TYPE.ERROR,
+        3000
       )
 
   signOut: () ->

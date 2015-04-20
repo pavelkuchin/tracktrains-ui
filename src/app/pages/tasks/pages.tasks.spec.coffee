@@ -161,7 +161,8 @@ describe 'PagesTasksCtrl', () ->
       expect(@stubDataService.saveTask).toHaveBeenCalledWith(testObj)
       expect(@stubAlertsService.showAlert).toHaveBeenCalledWith(
         "The task successfully saved!"
-        @ALERTS_TYPE.SUCCESS
+        @ALERTS_TYPE.SUCCESS,
+        3000
       )
 
     it 'dataService.saveTask(task) was called for creating a new item and alert was showed', () =>
@@ -193,7 +194,8 @@ describe 'PagesTasksCtrl', () ->
       expect(@stubDataService.saveTask).toHaveBeenCalledWith(testObj)
       expect(@stubAlertsService.showAlert).toHaveBeenCalledWith(
         "The task successfully saved!"
-        @ALERTS_TYPE.SUCCESS
+        @ALERTS_TYPE.SUCCESS,
+        3000
       )
 
       expect(@stubDataService.getTasks).toHaveBeenCalled()

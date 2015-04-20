@@ -70,7 +70,8 @@ class PagesTasksCtrl
     @dataService.saveTask(task).then () =>
       @alertsService.showAlert(
         "The task successfully saved!",
-        @alertsService.TYPE.SUCCESS
+        @alertsService.TYPE.SUCCESS,
+        3000
       )
       if not task.resource_uri
         @dataService.getTasks().then ({data}) =>
