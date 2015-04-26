@@ -94,8 +94,7 @@ class PagesTasksCtrl
 
   getStation: (station) ->
     @dataService.getStation(station).then (response) ->
-      response.data.map (item) ->
-        item.name
+      response.data
 
   getTrains: (train) ->
     trains = [

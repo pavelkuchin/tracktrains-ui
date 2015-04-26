@@ -346,4 +346,16 @@ describe 'PagesTasksCtrl', () ->
 
       @$rootScope.$digest()
 
-      expect(result).toEqual(['test1', 'test2', 'test3'])
+      expect(result).toEqual([
+        name: 'test1'
+        full_name: 'test1 full'
+        code: '0'
+      ,
+        name: 'test2'
+        full_name: 'test2 full'
+        code: '1'
+      ,
+        name: 'test3'
+        full_name: 'test3 full'
+        code: '2'
+      ])
