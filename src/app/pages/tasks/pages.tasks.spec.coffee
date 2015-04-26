@@ -19,7 +19,8 @@ describe 'PagesTasksCtrl', () ->
       'saveTask',
       'disableTask',
       'enableTask',
-      'deleteTask'
+      'deleteTask',
+      'getStation'
     ])
 
     @expectedInitialTasksList = [
@@ -317,3 +318,32 @@ describe 'PagesTasksCtrl', () ->
       expect(@stubDataService.deleteTask).toHaveBeenCalledWith(deletedItem)
       expect(@controller.initialTasksList[0].name).toEqual('test1')
       expect(@controller.tasksList[0][0].name).toEqual('test1')
+
+  describe 'controller.getStation(station)', () =>
+    it 'return list of names', () =>
+      @stubDataService.getStation.and.returnValue(@$q.when(
+        data:[
+          name: 'test1'
+          full_name: 'test1 full'
+          code: '0'
+        ,
+          name: 'test2'
+          full_name: 'test2 full'
+          code: '1'
+        ,
+          name: 'test3'
+          full_name: 'test3 full'
+          code: '2'
+        ]
+      ))
+
+      result = []
+
+      stations = @controller.getStation('test')
+
+      stations.then (data) ->
+        result = data
+
+      @$rootScope.$digest()
+
+      expect(result).toEqual(['test1', 'test2', 'test3'])

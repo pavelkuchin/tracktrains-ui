@@ -68,3 +68,8 @@ describe 'DataService', () ->
     @DataService.saveTask(task)
 
     @$httpBackend.expectPOST('test_uri', task)
+
+  it 'getStation', () =>
+    @DataService.getStation('test')
+
+    @$httpBackend.expectGET('/v1/byrwgateway/station/test/')

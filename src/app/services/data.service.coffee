@@ -16,6 +16,8 @@
     deleteTask(task) - delete task
     saveTask(task) - create a new task if task.resource_uri is undefined
                      update an existing task if task.resource_uri is defined
+    getStation(name) - return stations list which name begins from value of 'name'
+                        parameter
 ###
 class DataService
   constructor: (@$http) ->
@@ -49,6 +51,9 @@ class DataService
       @$http.put(task.resource_uri, task)
     else
       @$http.post('/v1/byrwtask/', task)
+
+  getStation: (name) ->
+    @$http.get("/v1/byrwgateway/station/#{name}/")
 
 angular
   .module('trackSeatsApp')

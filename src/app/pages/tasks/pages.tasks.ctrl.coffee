@@ -32,9 +32,9 @@
     delete(task): Delete the task, at first call dataService.deleteTask(task)
                   and then if successful remove task from initialTasksList and
                   chunk result to tasksList
-    getCities(city): should return from server the list of cities with filter for 'city'
+    getStation(station): should return from server the list of staions with filter for 'station'
     getTrains(train): should return from server the list of trains with filter for 'train'
-                      make sure that departure and destination cities are selected
+                      make sure that departure and destination station are selected
                       at this point because list of trains are building based on journey route
 
 ###
@@ -92,15 +92,10 @@ class PagesTasksCtrl
       _.remove(@initialTasksList, task)
       @tasksList = _.chunk(@initialTasksList, 4)
 
-  getCities: (city) ->
-    cities = [
-      'МИНСК',
-      'ГОМЕЛЬ',
-      'БРЕСТ',
-      'МОГИЛЕВ',
-      'ВИТЕБСК',
-      'ГРОДНО'
-    ]
+  getStation: (station) ->
+    @dataService.getStation(station).then (response) ->
+      response.data.map (item) ->
+        item.name
 
   getTrains: (train) ->
     trains = [

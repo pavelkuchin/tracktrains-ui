@@ -25,19 +25,31 @@
       input.form-control(
         type="text" 
         ng-model="departure_point"
-        placeholder="* Departure city (mandatory)"
-        typeahead="c for c in getCities({city: $viewValue})"
+        placeholder="* Departure station (mandatory)"
+        typeahead="c for c in getStation({station: $viewValue})"
+        typeahead-wait-ms="500"
+        typeahead-loading="loadingDepartureStations"
+        typeahead-editable="false"
         ng-disabled="!departure_date"
       )
+      .ts-field-loading(ng-show="loadingDepartureStations")
+        span.ts-glyphicon.glyphicon.glyphicon-refresh
+        | Loading...
   .row.ts-bottom-margin
     .col-md-12
       input.form-control(
         type="text" 
         ng-model="destination_point"
-        placeholder="* Destination city (mandatory)"
-        typeahead="c for c in getCities({city: $viewValue})"
+        placeholder="* Destination station (mandatory)"
+        typeahead="c for c in getStation({station: $viewValue})"
+        typeahead-wait-ms="500"
+        typeahead-loading="loadingDestinationStations"
+        typeahead-editable="false"
         ng-disabled="!departure_date"
       )
+      .ts-field-loading(ng-show="loadingDestinationStations")
+        span.ts-glyphicon.glyphicon.glyphicon-refresh
+        | Loading...
   .row.ts-bottom-margin
     .col-md-12
       input.form-control(

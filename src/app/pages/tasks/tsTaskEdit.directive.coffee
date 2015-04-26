@@ -8,14 +8,14 @@
     save="save()"
     task="task"
     edit-mode="editEnabled"
-    get-cities="getCities(city)"
+    get-station="getStation(station)"
     get-trains="getTrains(train)">
 
   save - the reference to the controller's save() method
   task - the new or existing task
   edit-mode - the flag that provides information about state change
               (usually it is used on page layer in order to hide component)
-  get-cities - the reference to controller method that will be used to filter cities
+  get-station - the reference to controller method that will be used to filter stations
   get-trains - the reference to controller method that will be used to filter trains
 ###
 tsTaskEdit = () ->
@@ -25,7 +25,7 @@ tsTaskEdit = () ->
     task: '='
     editMode: '='
     save: '&'
-    getCities: '&'
+    getStation: '&'
     getTrains: '&'
   link: tsTaskEditLink
 # XXX Needs refactoring because this function is in the global scope
