@@ -24,7 +24,7 @@
         edit-mode="tasks.createNewTask"
         save="tasks.save(task)"
         get-station="tasks.getStation(station)"
-        get-trains="tasks.getTrains(train)"
+        get-trains="tasks.getTrains(params)"
       )
     .col-md-4
   .row.tasks-row(ng-repeat="r in tasks.tasksList")
@@ -46,5 +46,5 @@
         edit-mode="editMode"
         save="tasks.save(task)"
         get-station="tasks.getStation(station)"
-        get-trains="tasks.getTrains(train)"
+        get-trains="tasks.getTrains(params)"
       )

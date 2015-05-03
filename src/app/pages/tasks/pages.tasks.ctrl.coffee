@@ -33,9 +33,11 @@
                   and then if successful remove task from initialTasksList and
                   chunk result to tasksList
     getStation(station): should return from server the list of staions with filter for 'station'
-    getTrains(train): should return from server the list of trains with filter for 'train'
+    getTrains(params): should return from server the list of trains with filter for 'train'
                       make sure that departure and destination station are selected
                       at this point because list of trains are building based on journey route
+                      the params parameter is object with fields date, departure, destination,
+                      train
 
 ###
 class PagesTasksCtrl
@@ -96,12 +98,14 @@ class PagesTasksCtrl
     @dataService.getStation(station).then (response) ->
       response.data
 
-  getTrains: (train) ->
-    trains = [
-      'T345',
-      'T564',
-      'B493'
-    ]
+  getTrains: (params) ->
+    date = params.date
+    departure = params.departure
+    destination = params.destination
+    train = params.train
+
+    @dataService.getTrain(date, departure, destination, train).then (response) ->
+      response.data
 
 angular
   .module('trackSeatsApp')

@@ -73,3 +73,11 @@ describe 'DataService', () ->
     @DataService.getStation('test')
 
     @$httpBackend.expectGET('/v1/byrwgateway/station/test/')
+
+  it 'getTrains', () =>
+    @DataService.getTrain('10-10-2015', 'dep', 'dest', 'quer')
+
+    @$httpBackend.expectGET('/v1/byrwgateway/train/?date=10-10-2015' +
+                            '&departure_point=dep' +
+                            '&destination_point=dest' +
+                            '&query=quer')

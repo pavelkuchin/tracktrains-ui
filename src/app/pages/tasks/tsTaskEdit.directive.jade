@@ -56,9 +56,15 @@
         type="text" 
         ng-model="train"
         placeholder="Any train"
-        typeahead="t for t in getTrains({train: $viewValue})"
+        typeahead-wait-ms="500"
+        typeahead="t.code as t.full_name for t in internalGetTrains($viewValue)"
+        typeahead-loading="loadingTrains"
+        typeahead-editable="false"
         ng-disabled="!departure_date || !departure_point || !destination_point"
       )
+      .ts-field-loading(ng-show="loadingTrains")
+        span.ts-glyphicon.glyphicon.glyphicon-refresh
+        | Loading...
   .row.ts-bottom-margin
     .col-md-12
       select.form-control(

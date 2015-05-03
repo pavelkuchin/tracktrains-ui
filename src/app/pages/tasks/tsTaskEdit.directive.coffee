@@ -50,6 +50,15 @@ tsTaskEditLink = (scope, element, attrs) ->
     copyTaskToScope()
     scope.editMode = false
 
+  scope.internalGetTrains = (train) ->
+    params =
+      date: scope.departure_date
+      departure: scope.departure_point
+      destination: scope.destination_point
+      train: train.toUpperCase()
+
+    scope.getTrains(params: params)
+
   copyTaskToScope = () ->
     task = scope.task
     scope.departure_date = task.departure_date

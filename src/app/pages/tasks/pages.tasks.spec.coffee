@@ -20,7 +20,8 @@ describe 'PagesTasksCtrl', () ->
       'disableTask',
       'enableTask',
       'deleteTask',
-      'getStation'
+      'getStation',
+      'getTrain'
     ])
 
     @expectedInitialTasksList = [
@@ -358,4 +359,45 @@ describe 'PagesTasksCtrl', () ->
         name: 'test3'
         full_name: 'test3 full'
         code: '2'
+      ])
+
+  describe 'controller.getTrain(params)', () =>
+    it 'return list of trains', () =>
+      @stubDataService.getTrain.and.returnValue(@$q.when(
+        data:[
+          full_name: '123B HOMIEL-MINSK'
+          code: '123B'
+        ,
+          full_name: '333C BREST-MINSK'
+          code: '333C'
+        ,
+          full_name: '232A MINSK-GRODNO'
+          code: '232A'
+        ]
+      ))
+
+      result = []
+
+      params =
+        date: '10-10-2015'
+        departure: 'HOMIEL'
+        destination: 'MINSK'
+        train: 'HO'
+
+      trains = @controller.getTrains(params)
+
+      trains.then (data) ->
+        result = data
+
+      @$rootScope.$digest()
+
+      expect(result).toEqual([
+        full_name: '123B HOMIEL-MINSK'
+        code: '123B'
+      ,
+        full_name: '333C BREST-MINSK'
+        code: '333C'
+      ,
+        full_name: '232A MINSK-GRODNO'
+        code: '232A'
       ])

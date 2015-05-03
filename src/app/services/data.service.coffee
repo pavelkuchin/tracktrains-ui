@@ -18,6 +18,9 @@
                      update an existing task if task.resource_uri is defined
     getStation(name) - return stations list which name begins from value of 'name'
                         parameter
+    getTrain(date, departure_station, destination_station, query) - return trains
+                    for the specific 'date' from departure_station to destination_station
+                    with filter by query
 ###
 class DataService
   constructor: (@$http) ->
@@ -54,6 +57,15 @@ class DataService
 
   getStation: (name) ->
     @$http.get("/v1/byrwgateway/station/#{name}/")
+
+  getTrain: (date, departure, destination, query) ->
+    @$http.get("/v1/byrwgateway/train/",
+      params:
+        date: date
+        departure_point: departure
+        destination_point: destination
+        query: query
+    )
 
 angular
   .module('trackSeatsApp')
