@@ -1,20 +1,17 @@
 .tasks-page
-  .row
+  .row(ng-hide="tasks.createNewTask")
     .col-md-12
       .toolbar
         .row
-          .col-md-3
-            input.form-control(
-              type="text"
-              ng-model="tasks.tasksFilter"
-              placeholder="Filter"
-            )
-          .col-md-3
+          .col-md-2
             button.btn.btn-primary(
               ng-click="tasks.createTask()"
             )
               span.glyphicon.glyphicon-plus.ts-glyphicon
-              | Create new task
+              span Create a new task
+          .col-md-10
+            p.text-right
+              strong All obsolete tasks are removed at midnight automatically.
   .row.tasks-row(ng-if="tasks.createNewTask")
     .col-md-4
     .col-md-4

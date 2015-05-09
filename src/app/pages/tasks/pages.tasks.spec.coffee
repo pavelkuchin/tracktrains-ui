@@ -9,7 +9,8 @@ describe 'PagesTasksCtrl', () ->
 
     @stubSession =
       user:
-        resource_uri: 'not_real_user_resource_uri_just_for_test'
+        resource_uri: 'not_real_user_resource_uri_just_for_test',
+        tasks_limit: 4
 
     @stubAlertsService = jasmine.createSpyObj('AlertsService', ['showAlert'])
     @stubAlertsService.TYPE = @ALERTS_TYPE
@@ -144,6 +145,20 @@ describe 'PagesTasksCtrl', () ->
       @controller.createTask()
 
       expect(@controller.createNewTask).toEqual(true)
+
+    it 'controller.createNewTask shows and error if tasks count exceed the limit', () =>
+
+      @$rootScope.$digest()
+
+      @controller.createTask()
+
+      expect(@stubAlertsService.showAlert).toHaveBeenCalledWith(
+        "Sorry, but the current system limitation is no more then 4 tasks per user.",
+        @ALERTS_TYPE.ERROR,
+        3000
+      )
+
+      expect(@controller.createNewTask).toEqual(false)
 
   describe 'controller.save', () =>
     it 'dataService.saveTask(task) was called for edit and alert showed', () =>

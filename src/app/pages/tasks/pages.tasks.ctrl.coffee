@@ -45,8 +45,6 @@ class PagesTasksCtrl
     @tasksList = []
     @initialTasksList = []
 
-    @tasksFilter = ''
-
     @newTask = null
     @createNewTask = false
 
@@ -55,18 +53,27 @@ class PagesTasksCtrl
       @tasksList = _.chunk(@initialTasksList, 4)
 
   createTask: () ->
-    @newTask =
-      resource_uri: ''
-      departure_date: ''
-      departure_point: ''
-      destination_point: ''
-      train: ''
-      car: 'ANY'
-      seat: 'ANY'
-      is_active: true
-      owner: @session.user.resource_uri
+    tasks_limit = @session.user.tasks_limit
+    if @initialTasksList.length >= tasks_limit
+      @alertsService.showAlert(
+        "Sorry, but the current system limitation is no more then
+         #{tasks_limit} tasks per user.",
+        @alertsService.TYPE.ERROR,
+        3000
+      )
+    else
+      @newTask =
+        resource_uri: ''
+        departure_date: ''
+        departure_point: ''
+        destination_point: ''
+        train: ''
+        car: 'ANY'
+        seat: 'ANY'
+        is_active: true
+        owner: @session.user.resource_uri
 
-    @createNewTask = true
+      @createNewTask = true
 
   save: (task) ->
     @dataService.saveTask(task).then () =>
