@@ -15,6 +15,7 @@ module.exports = (config) ->
         # list of files / patterns to load in the browser
         files: [
             'components/angular/angular.js'
+            'components/angular-messages/angular-messages.js'
             'components/angular-ui-router/release/angular-ui-router.js'
             'components/angular-mocks/angular-mocks.js'
             'components/angular-bootstrap/ui-bootstrap-tpls.js'

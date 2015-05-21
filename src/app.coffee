@@ -1,7 +1,8 @@
 angular.module 'trackSeatsApp', [
     'angular-loading-bar'
     'ui.bootstrap'
-    'ui.router'
+    'ui.router',
+    'ngMessages'
   ]
 .config ($httpProvider, $stateProvider, $urlRouterProvider, AUTH_EVENTS) ->
   $httpProvider.interceptors.push ($q, $rootScope, AlertsService) ->
@@ -44,6 +45,12 @@ angular.module 'trackSeatsApp', [
       url: "/tasks"
       templateUrl: "app/pages/tasks/pages.tasks.template.html"
       controller: "PagesTasksCtrl as tasks"
+    )
+    .state("settings",
+      parent: "root"
+      url: "/settings"
+      templateUrl: "app/pages/settings/pages.settings.template.html"
+      controller: "PagesSettingsCtrl as settings"
     )
 .run (AUTH_EVENTS, NAVIGATION, $rootScope, $state, AuthService, AlertsService) ->
   $rootScope.$on(AUTH_EVENTS.UNAUTHENTICATED, () ->

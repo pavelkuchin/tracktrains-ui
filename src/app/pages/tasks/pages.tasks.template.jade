@@ -3,14 +3,14 @@
     .col-md-12
       .toolbar
         .row
-          .col-md-2
+          .col-md-1.text-center
             button.btn.btn-primary(
               ng-click="tasks.createTask()"
             )
               span.glyphicon.glyphicon-plus.ts-glyphicon
               span Create a new task
-          .col-md-10
-            p.text-right
+          .col-md-11.text-center
+            .ts-info
               strong All obsolete tasks are removed at midnight automatically.
   .row.tasks-row(ng-if="tasks.createNewTask")
     .col-md-4

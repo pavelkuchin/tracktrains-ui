@@ -32,7 +32,7 @@ html(class="no-js", ng-app="trackSeatsApp")
                   span.icon-bar
                   span.icon-bar
                   span.icon-bar
-          a.navbar-brand(href="#") TrackSeats (Beta)
+          a.navbar-brand(ui-sref="tasks") TrackSeats (Beta)
         div.collapse.navbar-collapse(
           collapse="nav.navCollapsed"
           ng-cloak
@@ -50,7 +50,7 @@ html(class="no-js", ng-app="trackSeatsApp")
                   span.caret
               ul.dropdown-menu(role="menu")
                 li
-                  a
+                  a(ui-sref="settings")
                     span.glyphicon.glyphicon-cog.ts-glyphicon(
                       aria-hidden="true"
                     )
@@ -115,8 +115,10 @@ html(class="no-js", ng-app="trackSeatsApp")
         | {{ alert.msg }}
     section.container-fluid(ui-view)
       h3.text-center Loading...
+    footer.ts-footer © 2015 TrackSeats.info
 
     script(type="text/javascript", src="components/angular-ui-router/release/angular-ui-router.js")
+    script(type="text/javascript", src="components/angular-messages/angular-messages.js")
     script(type="text/javascript", src="components/angular-bootstrap/ui-bootstrap-tpls.js")
     script(type="text/javascript", src="components/angular-loading-bar/src/loading-bar.js")
     script(type="text/javascript", src="components/lodash/lodash.js")

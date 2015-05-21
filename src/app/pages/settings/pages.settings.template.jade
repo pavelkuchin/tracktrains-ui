@@ -1,0 +1,100 @@
+.settings-page
+  .row
+    .col-md-6.col-md-offset-3
+      h1 Settings for {{ settings.userName }}
+    .col-md-6.col-md-offset-3
+      h2 Do you want change your password?
+      form(name="changePasswordForm", novalidate)
+        .form-group
+          label(for="email") Email
+          input.form-control.input-lg(
+            type="email"
+            id="email"
+            name="email"
+            ng-model="::settings.session.user.email"
+            placeholder="Your Email, you can't change it."
+            disabled
+          )
+        .form-group(
+          ng-class="settings.getValidationClass(changePasswordForm.password)"
+        )
+          label.control-label(for="password") New password
+          input.form-control.input-lg(
+            type="password"
+            id="password"
+            name="password"
+            ng-model="passwordModel"
+            minlength="10"
+            required
+          )
+          .help-block(
+            ng-messages="changePasswordForm.password.$error"
+            ng-show="changePasswordForm.password.$dirty"
+            role="alert"
+          )
+            div(ng-message="required") Please enter a new password.
+            div(ng-message="minlength") The password should be longer than 10 symbols.
+        .form-group(
+          ng-class="settings.getValidationClass(changePasswordForm.confirmPassword)"
+        )
+          label.control-label(for="confirm_password") Confirm new password
+          input.form-control.input-lg(
+            ts-validate-password-confirmation="passwordModel"
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            ng-model="confirmPasswordModel"
+            minlength="10"
+            required
+          )
+          .help-block(
+            ng-messages="changePasswordForm.confirmPassword.$error"
+            ng-show="changePasswordForm.confirmPassword.$dirty"
+            role="alert"
+          )
+            div(ng-message="required") Please confirm the password.
+            div(ng-message="minlength") The password should be longer than 10 symbols.
+            div(ng-message="confirmed") The field does not equal the New password field.
+
+        button.btn.btn-default.btn-lg(
+          type="submit"
+          ng-click="settings.changePassword(passwordModel, confirmPasswordModel)"
+          ng-disabled="changePasswordForm.$invalid"
+        ) Change password
+    .col-md-6.col-md-offset-3(ng-show="settings.invitesCounter")
+      h2 Do you want invite a friend? 
+      form(name="inviteFriendForm", novalidate)
+        .form-group(
+          ng-class="settings.getValidationClass(inviteFriendForm.friendEmail)"
+        )
+          label.control-label(for="email") Email
+          input.form-control.input-lg(
+            type="email"
+            id="email"
+            name="friendEmail"
+            ng-model="friendEmailModel"
+            placeholder="Your friend's email"
+            required
+          )
+          .help-block(
+            ng-messages="inviteFriendForm.friendEmail.$error"
+            ng-show="inviteFriendForm.friendEmail.$dirty"
+            role="alert"
+          )
+            div(ng-message="required") Please enter friend's email.
+            div(ng-message="email") Email is not correct.
+        .help-block You still have {{ settings.invitesCounter }} more invitations.          
+        button.btn.btn-default.btn-lg(
+          type="submit"
+          ng-click="settings.inviteFriend(friendEmailModel)"
+          ng-disabled="inviteFriendForm.$invalid"
+        ) Invite
+    .col-md-6.col-md-offset-3
+      h2 Do you want delete your account? 
+      button.btn.btn-danger.btn-lg(
+        type="submit",
+        ng-click="settings.deleteAccount()"
+      ) Delete the account
+      .help-block 
+        | Attention, there is no way to undo this action.
+        | The invite will not be returned to the inviter.
