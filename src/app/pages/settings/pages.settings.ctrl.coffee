@@ -8,13 +8,17 @@
   and delete my account (?).
 ###
 class PagesSettingsCtrl
-  constructor: (@session) ->
+  constructor: (@session, @DialogsService) ->
     @userName = @session.user.email.split("@")[0]
     @invitesCounter = @session.user.invites_counter
     console.log(@invitesCounter)
 
   deleteAccount: () ->
-    console.log("Delete this account.")
+    @DialogsService.confirmation("Do you really want delete your account?")
+    .then () ->
+      console.log("Delete this account.")
+    .catch () ->
+      console.log("Deleting action was rejected.")
 
   inviteFriend: (email) ->
     console.log("Sent invitation to email #{email}")
@@ -33,4 +37,4 @@ angular
   .module('trackSeatsApp')
   .controller('PagesSettingsCtrl', PagesSettingsCtrl)
 
-PagesSettingsCtrl.$inject = ['session', 'AlertsService']
+PagesSettingsCtrl.$inject = ['session', 'DialogsService']

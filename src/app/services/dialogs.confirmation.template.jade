@@ -1,0 +1,15 @@
+.container-fluid.confirmation-dialog
+  .row.rw-margin-bottom
+    .col-md-12.text-center 
+      h3 {{ text }}
+  .row
+    .col-md-3.col-md-offset-3.text-center
+      button.btn.btn-lg.btn-danger(
+        type="button"
+        ng-click="$close('Yes')"
+      ) Yes
+    .col-md-3.text-center
+      button.btn.btn-lg.btn-primary(
+        type="button"
+        ng-click="$dismiss('No')"
+      ) No

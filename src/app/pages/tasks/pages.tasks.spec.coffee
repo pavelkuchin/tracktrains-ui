@@ -15,6 +15,8 @@ describe 'PagesTasksCtrl', () ->
     @stubAlertsService = jasmine.createSpyObj('AlertsService', ['showAlert'])
     @stubAlertsService.TYPE = @ALERTS_TYPE
 
+    @stubDialogsService = jasmine.createSpyObj('DialogsService', ['confirmation'])
+
     @stubDataService = jasmine.createSpyObj('DataService', [
       'getTasks',
       'saveTask',
@@ -27,34 +29,50 @@ describe 'PagesTasksCtrl', () ->
 
     @expectedInitialTasksList = [
         name: 'test1'
+        departure_point: 'from_test'
+        destination_point: 'to_test'
         somefield: 'test data'
         resource_uri: 'fake1'
       ,
         name: 'test2'
+        departure_point: 'from_test'
+        destination_point: 'to_test'
         somefield: 'test data'
         resource_uri: 'fake2'
       ,
         name: 'test3'
+        departure_point: 'from_test'
+        destination_point: 'to_test'
         somefield: 'test data'
         resource_uri: 'fake3'
       ,
         name: 'test4'
+        departure_point: 'from_test'
+        destination_point: 'to_test'
         somefield: 'test data'
         resource_uri: 'fake4'
       ,
         name: 'test5'
+        departure_point: 'from_test'
+        destination_point: 'to_test'
         somefield: 'test data'
         resource_uri: 'fake5'
       ,
         name: 'test6'
+        departure_point: 'from_test'
+        destination_point: 'to_test'
         somefield: 'test data'
         resource_uri: 'fake6'
       ,
         name: 'test7'
+        departure_point: 'from_test'
+        destination_point: 'to_test'
         somefield: 'test data'
         resource_uri: 'fake7'
       ,
         name: 'test8'
+        departure_point: 'from_test'
+        destination_point: 'to_test'
         somefield: 'test data'
         resource_uri: 'fake8'
     ]
@@ -62,35 +80,51 @@ describe 'PagesTasksCtrl', () ->
     @expectedTasksList = [
       [
           name: 'test1'
+          departure_point: 'from_test'
+          destination_point: 'to_test'
           somefield: 'test data'
           resource_uri: 'fake1'
         ,
           name: 'test2'
+          departure_point: 'from_test'
+          destination_point: 'to_test'
           somefield: 'test data'
           resource_uri: 'fake2'
         ,
           name: 'test3'
+          departure_point: 'from_test'
+          destination_point: 'to_test'
           somefield: 'test data'
           resource_uri: 'fake3'
         ,
           name: 'test4'
+          departure_point: 'from_test'
+          destination_point: 'to_test'
           somefield: 'test data'
           resource_uri: 'fake4'
       ],
       [
           name: 'test5'
+          departure_point: 'from_test'
+          destination_point: 'to_test'
           somefield: 'test data'
           resource_uri: 'fake5'
         ,
           name: 'test6'
+          departure_point: 'from_test'
+          destination_point: 'to_test'
           somefield: 'test data'
           resource_uri: 'fake6'
         ,
           name: 'test7'
+          departure_point: 'from_test'
+          destination_point: 'to_test'
           somefield: 'test data'
           resource_uri: 'fake7'
         ,
           name: 'test8'
+          departure_point: 'from_test'
+          destination_point: 'to_test'
           somefield: 'test data'
           resource_uri: 'fake8'
       ]
@@ -106,6 +140,7 @@ describe 'PagesTasksCtrl', () ->
       $scope: @scope
       AlertsService: @stubAlertsService
       DataService: @stubDataService
+      DialogsService: @stubDialogsService
       session: @stubSession
     )
 
@@ -296,6 +331,7 @@ describe 'PagesTasksCtrl', () ->
     it 'if dataService.deleteTask(task) succesfully completed then remove item
         from initialTasksList and re-chunk it to tasksList', () =>
       @stubDataService.deleteTask.and.returnValue(@$q.when())
+      @stubDialogsService.confirmation.and.returnValue(@$q.when())
 
       deletedItem = angular.copy(@expectedInitialTasksList[0])
 
@@ -304,16 +340,22 @@ describe 'PagesTasksCtrl', () ->
       expect(@controller.initialTasksList[0].name).toEqual('test1')
       expect(@controller.tasksList[0][0].name).toEqual('test1')
 
-      @controller.delete(@expectedInitialTasksList[0])
+      task = @expectedInitialTasksList[0]
+
+      @controller.delete(task)
 
       @$rootScope.$digest()
 
+      expect(@stubDialogsService.confirmation).toHaveBeenCalledWith(
+        "Do you really want delete the task #{task.departure_point} - #{task.destination_point}"
+      )
       expect(@stubDataService.deleteTask).toHaveBeenCalledWith(deletedItem)
       expect(@controller.initialTasksList[0].name).toEqual('test2')
       expect(@controller.tasksList[0][0].name).toEqual('test2')
 
     it 'if dataService.deleteTask(task) completed with error then initialTasksList
         and tasksList shall not be changed', () =>
+      @stubDialogsService.confirmation.and.returnValue(@$q.when())
       @stubDataService.deleteTask.and.callFake(() =>
         p = @$q.defer()
         p.reject('')
@@ -331,9 +373,60 @@ describe 'PagesTasksCtrl', () ->
 
       @$rootScope.$digest()
 
+      expect(@stubDialogsService.confirmation).toHaveBeenCalled()
       expect(@stubDataService.deleteTask).toHaveBeenCalledWith(deletedItem)
       expect(@controller.initialTasksList[0].name).toEqual('test1')
       expect(@controller.tasksList[0][0].name).toEqual('test1')
+
+    it 'if dataService.deleteTask(task) but user pressed no in a confirmation dialog
+        then the task should not be deleted.', () =>
+      @stubDataService.deleteTask.and.returnValue(@$q.when())
+      @stubDialogsService.confirmation.and.returnValue(@$q.when())
+
+      deletedItem = angular.copy(@expectedInitialTasksList[0])
+
+      @$rootScope.$digest()
+
+      expect(@controller.initialTasksList[0].name).toEqual('test1')
+      expect(@controller.tasksList[0][0].name).toEqual('test1')
+
+      task = @expectedInitialTasksList[0]
+
+      @controller.delete(task)
+
+      @$rootScope.$digest()
+
+      expect(@stubDialogsService.confirmation).toHaveBeenCalledWith(
+        "Do you really want delete the task #{task.departure_point} - #{task.destination_point}"
+      )
+      expect(@stubDataService.deleteTask).toHaveBeenCalledWith(deletedItem)
+      expect(@controller.initialTasksList[0].name).toEqual('test2')
+      expect(@controller.tasksList[0][0].name).toEqual('test2')
+
+    it 'if dataService.deleteTask(task) completed with error then initialTasksList
+        and tasksList shall not be changed', () =>
+      @stubDataService.deleteTask.and.returnValue(@$q.when())
+      @stubDialogsService.confirmation.and.callFake(() =>
+        p = @$q.defer()
+        p.reject('')
+        p.promise
+      )
+
+      deletedItem = angular.copy(@expectedInitialTasksList[0])
+
+      @$rootScope.$digest()
+
+      expect(@controller.initialTasksList[0].name).toEqual('test1')
+      expect(@controller.tasksList[0][0].name).toEqual('test1')
+
+      @controller.delete(@expectedInitialTasksList[0])
+
+      @$rootScope.$digest()
+
+      expect(@stubDialogsService.confirmation).toHaveBeenCalled()
+      expect(@controller.initialTasksList[0].name).toEqual('test1')
+      expect(@controller.tasksList[0][0].name).toEqual('test1')
+
 
   describe 'controller.getStation(station)', () =>
     it 'return list of names', () =>

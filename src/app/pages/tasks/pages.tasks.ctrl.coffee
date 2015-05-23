@@ -41,7 +41,7 @@
 
 ###
 class PagesTasksCtrl
-  constructor: (@session, @dataService, @$q, @alertsService) ->
+  constructor: (@session, @dataService, @$q, @alertsService, @DialogsService) ->
     @tasksList = []
     @initialTasksList = []
 
@@ -95,11 +95,13 @@ class PagesTasksCtrl
     @dataService.enableTask(task).then () ->
       task.is_active = true
 
-  # TODO confirmation dialog
   delete: (task) ->
-    @dataService.deleteTask(task).then () =>
-      _.remove(@initialTasksList, task)
-      @tasksList = _.chunk(@initialTasksList, 4)
+    @DialogsService.confirmation(
+      "Do you really want delete the task #{task.departure_point} - #{task.destination_point}"
+    ).then () =>
+      @dataService.deleteTask(task).then () =>
+        _.remove(@initialTasksList, task)
+        @tasksList = _.chunk(@initialTasksList, 4)
 
   getStation: (station) ->
     @dataService.getStation(station).then (response) ->
@@ -118,4 +120,5 @@ angular
   .module('trackSeatsApp')
   .controller('PagesTasksCtrl', PagesTasksCtrl)
 
-PagesTasksCtrl.$inject = ['session', 'DataService', '$q', 'AlertsService']
+PagesTasksCtrl.$inject = ['session', 'DataService', '$q', 'AlertsService',
+                          'DialogsService']
