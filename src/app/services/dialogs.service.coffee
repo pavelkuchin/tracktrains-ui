@@ -18,10 +18,9 @@ class DialogsService
   confirmation: (text) ->
     @isolatedScope.text = text
 
-    dialogScope =
     @$modal.open(
       scope: @isolatedScope
-      templateUrl: "app/services/dialogs.confirmation.template.html"
+      templateUrl: 'app/services/dialogs.confirmation.template.html'
     ).result
 
 angular
