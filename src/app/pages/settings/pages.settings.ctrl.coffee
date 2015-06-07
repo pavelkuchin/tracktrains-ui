@@ -8,23 +8,61 @@
   and delete my account (?).
 ###
 class PagesSettingsCtrl
-  constructor: (@session, @DialogsService) ->
+  constructor: (@$rootScope, @session, @DialogsService, @DataService,
+                @AlertsService, @AuthService, @$state, @AUTH_EVENTS) ->
     @userName = @session.user.email.split("@")[0]
     @invitesCounter = @session.user.invites_counter
-    console.log(@invitesCounter)
 
   deleteAccount: () ->
-    @DialogsService.confirmation("Do you really want delete your account?")
-    .then () ->
-      console.log("Delete this account.")
-    .catch () ->
-      console.log("Deleting action was rejected.")
+    @DialogsService.confirmation(
+      "Do you really want delete your account?",
+      "Attention, there is no way to undo this action. The invite will not be returned to the inviter."
+    ).then () =>
+      @DataService.deleteAccount(@session.user)
+        .then () =>
+          @$rootScope.$emit(AUTH_EVENTS.UNAUTHENTICATED)
+          @AlertsService.showAlert(
+            "Your account has been permanently removed. It was great to have you with us!"
+            @AlertsService.TYPE.SUCCESS
+          )
+        .catch (msg) =>
+          @AlertsService.showAlert(
+            "Something went wrong. Please try later."
+            @AlertsService.TYPE.ERROR
+          )
 
   inviteFriend: (email) ->
-    console.log("Sent invitation to email #{email}")
+    @DataService.inviteFriend(email)
+      .then () =>
+        @$state.reload()
+        @AlertsService.showAlert(
+          "An invitation letter has been sent for #{email}",
+          @AlertsService.TYPE.SUCCESS,
+          3000
+        )
+      .catch (err) =>
+        @AlertsService.showAlert(
+          "An invitation letter has not been sent because of '#{err.data}'"
+          @AlertsService.TYPE.ERROR
+        )
 
-  changePassword: (password, confirmPassword) ->
-    console.log("Change password to #{password}, confirmation equals #{confirmPassword}")
+  changePassword: (newPassword, confirmPassword) ->
+    if newPassword == confirmPassword
+      @DialogsService.confirmationWithPassword("Change Your Password", "Do you really want change your password?")
+      .then (currentPassword) =>
+        @DataService.changePassword(currentPassword, newPassword)
+          .then () =>
+            @$state.reload()
+            @AlertsService.showAlert(
+              "Password has been changed.",
+              @AlertsService.TYPE.SUCCESS,
+              3000
+            )
+          .catch (err) =>
+            @AlertsService.showAlert(
+              "Password has not been changed because of '#{err.data}'",
+              @AlertsService.TYPE.ERROR
+            )
 
   getValidationClass: (field) ->
     if field?.$dirty
@@ -37,4 +75,5 @@ angular
   .module('trackSeatsApp')
   .controller('PagesSettingsCtrl', PagesSettingsCtrl)
 
-PagesSettingsCtrl.$inject = ['session', 'DialogsService']
+PagesSettingsCtrl.$inject = ['$rootScope', 'session', 'DialogsService', 'DataService',
+                             'AlertsService', 'AuthService', '$state', 'AUTH_EVENTS']

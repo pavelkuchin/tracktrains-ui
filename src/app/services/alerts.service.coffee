@@ -19,12 +19,16 @@
     clearAlerts() - should clear all messages
 ###
 class AlertsService
-  constructor: (ALERTS_TYPE, @$timeout) ->
+  constructor: (ALERTS_TYPE, @$timeout, @$location, @$anchorScroll) ->
     @alerts =
       messages: []
     @TYPE = ALERTS_TYPE
 
   showAlert: (msg, type, howLong=0) ->
+
+    @$location.hash('alertMessages')
+    @$anchorScroll()
+
     msg = {msg: msg, type: type}
     @alerts.messages.push msg
     if howLong
@@ -33,6 +37,7 @@ class AlertsService
       ,
         howLong
       )
+      true
 
   clearAlerts: () ->
     @alerts.messages = []
@@ -41,4 +46,4 @@ angular
   .module('trackSeatsApp')
   .service('AlertsService', AlertsService)
 
-AlertsService.$inject = ['ALERTS_TYPE', '$timeout']
+AlertsService.$inject = ['ALERTS_TYPE', '$timeout', '$location', '$anchorScroll']

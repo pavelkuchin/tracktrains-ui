@@ -21,6 +21,9 @@
     getTrain(date, departure_station, destination_station, query) - return trains
                     for the specific 'date' from departure_station to destination_station
                     with filter by query
+    changePassword(current_password, password) - changes a password of the user
+    inviteFriend(friendsEmail) - sends an invitation to a friend
+    deleteAccount(user) - deletes an user account
 ###
 class DataService
   constructor: (@$http) ->
@@ -66,6 +69,19 @@ class DataService
         destination_point: destination
         query: query
     )
+
+  changePassword: (currentPassword, newPassword) ->
+    data =
+      password: currentPassword
+      new_password: newPassword
+    @$http.put("/v1/user/change_password/", data)
+
+  inviteFriend: (friendsEmail) ->
+    @$http.post("/v1/user/invite/#{friendsEmail}/", {})
+
+  deleteAccount: (user) ->
+    @$http.delete("/v1/user/#{user.id}/")
+
 
 angular
   .module('trackSeatsApp')

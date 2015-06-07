@@ -92,6 +92,7 @@ html(class="no-js", ng-app="trackSeatsApp")
               )
             button.btn.btn-default(type="submit") Sign in
     div.container-fluid(
+      id="alertMessages"
       ng-show="alertsCtrl.alerts.messages"
       ng-controller="LayoutAlertsCtrl as alertsCtrl"
     )

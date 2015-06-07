@@ -18,7 +18,15 @@ describe 'DialogsService', () ->
 
   describe 'service.confirmation', () =>
     it 'open confirmation dialog', () =>
-      @DialogsService.confirmation('test')
+      @DialogsService.confirmation('test header', 'test')
+
+      @$rootScope.$digest()
+
+      expect(@mockModal.open).toHaveBeenCalled()
+
+  describe 'service.confirmationWithPassword', () =>
+    it 'open confirmationWithPassword dialog', () =>
+      @DialogsService.confirmationWithPassword('test header', 'test')
 
       @$rootScope.$digest()
 

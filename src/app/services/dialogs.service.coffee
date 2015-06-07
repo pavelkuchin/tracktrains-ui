@@ -6,21 +6,32 @@
   (like confirmation dialog)
 
   Methods:
-    confirmation(text) - this method opens a confirmation dialog
-                                   that contains the text
+    confirmation(header, text) - this method opens a confirmation dialog
+                                   that contains the text and header
                                    returns a resolved promise if it was accepted by user
                                    or rejected promise if user did reject it
 ###
 class DialogsService
-  constructor: ($rootScope, @$modal) ->
-    @isolatedScope = $rootScope.$new(true)
+  constructor: (@$rootScope, @$modal) ->
 
-  confirmation: (text) ->
-    @isolatedScope.text = text
+  confirmation: (header, text) ->
+    isolatedScope = @$rootScope.$new(true)
+    isolatedScope.header = header
+    isolatedScope.text = text
 
     @$modal.open(
-      scope: @isolatedScope
+      scope: isolatedScope
       templateUrl: 'app/services/dialogs.confirmation.template.html'
+    ).result
+
+  confirmationWithPassword: (header, text) ->
+    isolatedScope = @$rootScope.$new(true)
+    isolatedScope.header = header
+    isolatedScope.text = text
+
+    @$modal.open(
+      scope: isolatedScope
+      templateUrl: 'app/services/dialogs.confirmationWithPassword.template.html'
     ).result
 
 angular
