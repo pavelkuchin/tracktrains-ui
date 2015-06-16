@@ -5,11 +5,26 @@
   Controller of the settings page.
 
   As User I should be able to change my password, invite friends,
-  and delete my account (?).
+  and delete my account.
+
+  Methods:
+    deleteAccount - call confirmation dialog and if user agrees to delete his account
+                    account will be deleted. If an account was deleted succesfully then
+                    emit UNAUTHENTICATED event (redirect to the landing page) and show
+                    an appropriate message. If there is an error it will show an error message
+    inviteFriend(email) - Send an invitation to the provided email and displays an success message if
+                    message has been sent succesfully and an error message if message has not
+                    been sent.
+    changePassword(newPassword, confirmPassword) - if a new password and a confirmation of
+                    a new password equals then displays confirmation dialog with password
+                    field if user enters an password and clicks yes then send a request
+                    to server to change a password.
+    getValidationClass(field) - the method provides a css class related to the current field
+                    state.
 ###
 class PagesSettingsCtrl
   constructor: (@$rootScope, @session, @DialogsService, @DataService,
-                @AlertsService, @AuthService, @$state, @AUTH_EVENTS) ->
+                @AlertsService, @$state, @AUTH_EVENTS) ->
     @userName = @session.user.email.split("@")[0]
     @invitesCounter = @session.user.invites_counter
 
@@ -20,7 +35,7 @@ class PagesSettingsCtrl
     ).then () =>
       @DataService.deleteAccount(@session.user)
         .then () =>
-          @$rootScope.$emit(AUTH_EVENTS.UNAUTHENTICATED)
+          @$rootScope.$emit(@AUTH_EVENTS.UNAUTHENTICATED)
           @AlertsService.showAlert(
             "Your account has been permanently removed. It was great to have you with us!"
             @AlertsService.TYPE.SUCCESS
@@ -76,4 +91,4 @@ angular
   .controller('PagesSettingsCtrl', PagesSettingsCtrl)
 
 PagesSettingsCtrl.$inject = ['$rootScope', 'session', 'DialogsService', 'DataService',
-                             'AlertsService', 'AuthService', '$state', 'AUTH_EVENTS']
+                             'AlertsService', '$state', 'AUTH_EVENTS']
