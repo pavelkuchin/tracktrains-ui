@@ -31,7 +31,7 @@ class PagesSettingsCtrl
   deleteAccount: () ->
     @DialogsService.confirmation(
       "Do you really want delete your account?",
-      "Attention, there is no way to undo this action. The invite will not be returned to the inviter."
+      "Attention, there is no way to undo this action. The invitation will not be returned to the inviter."
     ).then () =>
       @DataService.deleteAccount(@session.user)
         .then () =>

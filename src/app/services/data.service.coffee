@@ -24,6 +24,7 @@
     changePassword(current_password, password) - changes a password of the user
     inviteFriend(friendsEmail) - sends an invitation to a friend
     deleteAccount(user) - deletes an user account
+    signup(invite, password) - create an user with using invite and password
 ###
 class DataService
   constructor: (@$http) ->
@@ -82,6 +83,10 @@ class DataService
   deleteAccount: (user) ->
     @$http.delete("/v1/user/#{user.id}/")
 
+  signup: (invite, password) ->
+    data =
+      password: password
+    @$http.post("/v1/user/signup/#{invite}/", data)
 
 angular
   .module('trackSeatsApp')

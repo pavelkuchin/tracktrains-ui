@@ -52,6 +52,12 @@ angular.module 'trackSeatsApp', [
       templateUrl: "app/pages/settings/pages.settings.template.html"
       controller: "PagesSettingsCtrl as settings"
     )
+    .state("signup",
+      parent: "root"
+      url: "/signup/:invite/"
+      templateUrl: "app/pages/signup/pages.signup.template.html"
+      controller: "PagesSignupCtrl as signup"
+    )
 .run (AUTH_EVENTS, NAVIGATION, $rootScope, $state, AuthService, AlertsService) ->
   $rootScope.$on(AUTH_EVENTS.UNAUTHENTICATED, () ->
     AuthService.resetSession()
@@ -68,6 +74,7 @@ angular.module 'trackSeatsApp', [
             toState.name == NAVIGATION.UNAUTHENTICATED_DEFAULT_STATE
           event.preventDefault()
         if not session.authenticated and
-            toState.name != NAVIGATION.UNAUTHENTICATED_DEFAULT_STATE
+            toState.name != NAVIGATION.UNAUTHENTICATED_DEFAULT_STATE and
+            toState.parent != 'root'
           event.preventDefault()
   )
