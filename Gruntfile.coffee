@@ -68,7 +68,10 @@ module.exports = (grunt) ->
                     logger: 'dev'
                     middleware: (connect, options) ->
                         proxy = require('grunt-connect-proxy/lib/utils').proxyRequest
+                        history = require('connect-history-api-fallback')
                         [
+                            # Support html5mode or the ui-router
+                            history()
                             # Include the proxy first
                             proxy
                             # Serve static files.

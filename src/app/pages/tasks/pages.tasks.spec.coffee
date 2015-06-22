@@ -347,6 +347,7 @@ describe 'PagesTasksCtrl', () ->
       @$rootScope.$digest()
 
       expect(@stubDialogsService.confirmation).toHaveBeenCalledWith(
+        "Delete task",
         "Do you really want delete the task #{task.departure_point} - #{task.destination_point}"
       )
       expect(@stubDataService.deleteTask).toHaveBeenCalledWith(deletedItem)
@@ -397,6 +398,7 @@ describe 'PagesTasksCtrl', () ->
       @$rootScope.$digest()
 
       expect(@stubDialogsService.confirmation).toHaveBeenCalledWith(
+        "Delete task",
         "Do you really want delete the task #{task.departure_point} - #{task.destination_point}"
       )
       expect(@stubDataService.deleteTask).toHaveBeenCalledWith(deletedItem)

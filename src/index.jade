@@ -6,6 +6,7 @@ html(class="no-js", ng-app="trackSeatsApp")
     title Track seats
     meta(name='description', content='Train tickets tracker')
     meta(name='viewport', content='width=device-width, initial-scale=1')
+    base(href='/')
     script(type="text/javascript", src="components/angular/angular.js")
     link(
       rel="stylesheet"
@@ -37,6 +38,12 @@ html(class="no-js", ng-app="trackSeatsApp")
           collapse="nav.navCollapsed"
           ng-cloak
         )
+          ul.nav.navbar-nav(
+            ng-show="nav.session.authenticated == true"
+          )
+            li(ng-class="{'active': nav.isStateActive('tasks')}")
+              a(ui-sref="tasks") Tasks
+                span.sr-only(ng-if="nav.isStateActive('tasks')") (current)
           ul.nav.navbar-nav.navbar-right(
             ng-show="nav.session.authenticated == true"
           )

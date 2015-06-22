@@ -45,10 +45,22 @@ class PagesTasksCtrl
     @tasksList = []
     @initialTasksList = []
 
-    @newTask = null
+    @newTask =
+      resource_uri: ''
+      departure_date: ''
+      departure_point: ''
+      destination_point: ''
+      train: ''
+      car: 'ANY'
+      seat: 'ANY'
+      is_active: true
+      owner: @session.user.resource_uri
+
     @createNewTask = false
 
     @dataService.getTasks().then ({data}) =>
+      if data.objects.length == 0
+        @createNewTask = true
       @initialTasksList = data.objects
       @tasksList = _.chunk(@initialTasksList, 4)
 
@@ -97,6 +109,7 @@ class PagesTasksCtrl
 
   delete: (task) ->
     @DialogsService.confirmation(
+      "Delete task",
       "Do you really want delete the task #{task.departure_point} - #{task.destination_point}"
     ).then () =>
       @dataService.deleteTask(task).then () =>

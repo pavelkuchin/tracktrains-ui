@@ -35,6 +35,9 @@ class LayoutNavigationCtrl
   toggleNavCollapsed: () ->
     @navCollapsed = !@navCollapsed
 
+  isStateActive: (state) ->
+    @$state.$current.name == state
+
   signIn: () ->
     if @email and @password
       @authService.signIn(@email, @password)

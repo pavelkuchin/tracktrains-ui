@@ -4,7 +4,7 @@ angular.module 'trackSeatsApp', [
     'ui.router',
     'ngMessages'
   ]
-.config ($httpProvider, $stateProvider, $urlRouterProvider, AUTH_EVENTS) ->
+.config ($httpProvider, $stateProvider, $urlRouterProvider, $locationProvider, AUTH_EVENTS) ->
   $httpProvider.interceptors.push ($q, $rootScope, AlertsService) ->
     'responseError': (rejection) ->
       if rejection.status == 401
@@ -23,6 +23,8 @@ angular.module 'trackSeatsApp', [
 
   $httpProvider.defaults.xsrfCookieName = 'csrftoken'
   $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken'
+
+  $locationProvider.html5Mode(true)
 
   $urlRouterProvider.otherwise("/")
 
