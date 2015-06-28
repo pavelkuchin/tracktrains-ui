@@ -62,6 +62,5 @@ angular
   .service('AuthService', AuthService)
 
 AuthService.$inject = [
-  'DataService', '$q', '$rootScope',
-  'AlertsService', 'AUTH_EVENTS'
+  'DataService', '$q', '$rootScope', 'AUTH_EVENTS'
 ]
