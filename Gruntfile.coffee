@@ -136,7 +136,7 @@ module.exports = (grunt) ->
     # Tasks
     grunt.registerTask 'test',[
         'karma'
-        'coveralls'
+#        'coveralls'
     ]
     grunt.registerTask 'build',[
         'clean',
