@@ -4,6 +4,7 @@ module.exports = (config) ->
         basePath: './'
 
         plugins: [
+          'karma-coffee-preprocessor'
           'karma-phantomjs-launcher'
           'karma-jasmine'
           'karma-coverage'
@@ -34,10 +35,13 @@ module.exports = (config) ->
         preprocessors:
           'src/**/*.coffee': ['coverage']
 
-        coverageReporter: {
-          type : 'lcovonly',
+        coverageReporter:
+          type : 'lcovonly'
           dir : 'coveralls/'
-        }
+          instrumenters:
+            ibrik : require('ibrik')
+          instrumenter:
+            '**/*.coffee': 'ibrik'
 
         # web server port
         port: 9876
