@@ -31,20 +31,21 @@ module.exports = (grunt) ->
                 spawn: false
             jade:
                 files: ["src/**/*.jade"]
-                tasks: ["jade", "copy:release"]
+                tasks: ["jade", "copy:debug"]
             coffeescript:
                 files: ["src/**/*.coffee"]
-                tasks: ["coffee", "copy:release"]
+                tasks: ["coffee", "copy:debug"]
             sass:
                 files: ["src/**/*.sass"]
-                tasks: ["concat:sass", "sass", "copy:release"]
-        uglify:
-            release:
-                files:
-                    "release/app.min.js": ["build/app.js"]
+                tasks: ["concat:sass", "sass", "copy:debug"]
         clean: ["build/", "release/"]
         copy:
             release:
+                expand: true
+                cwd: "build"
+                src: "**/*.html"
+                dest: "release/"
+            debug:
                 expand: true
                 cwd: "build"
                 src: "**/*.{html,css,js,js.map}"
@@ -52,13 +53,32 @@ module.exports = (grunt) ->
             static:
                 src: "static/**"
                 dest: "release/"
-            components:
-                src: "components/**"
-                dest: "release/"
         concat:
             sass:
                 src: "src/**/*.sass"
                 dest: "build/app.sass"
+        filerev:
+          options:
+            algorithm: 'md5'
+            length: 8
+          release:
+            src: 'release/app.min.{css,js}'
+        useminPrepare:
+          html: 'build/index.html'
+          options:
+            dest: 'release'
+            root: 'build'
+            flow:
+              steps:
+                js: ['uglifyjs']
+                css: ['cssmin']
+              post: {}
+        usemin:
+          options:
+            dest: 'release'
+            root: 'build'
+            assetsDirs: 'release'
+          html: 'build/index.html'
         connect:
             dev_server:
                 options:
@@ -99,15 +119,19 @@ module.exports = (grunt) ->
 
     grunt.loadNpmTasks 'grunt-contrib-watch'
 
+    grunt.loadNpmTasks 'grunt-contrib-cssmin'
     grunt.loadNpmTasks 'grunt-contrib-uglify'
     grunt.loadNpmTasks 'grunt-contrib-clean'
     grunt.loadNpmTasks 'grunt-contrib-copy'
+    grunt.loadNpmTasks 'grunt-filerev'
 
     grunt.loadNpmTasks 'grunt-contrib-connect'
     grunt.loadNpmTasks 'grunt-connect-proxy'
 
     grunt.loadNpmTasks 'grunt-karma'
     grunt.loadNpmTasks 'grunt-karma-coveralls'
+
+    grunt.loadNpmTasks 'grunt-usemin'
 
     # Tasks
     grunt.registerTask 'test',[
@@ -124,16 +148,17 @@ module.exports = (grunt) ->
     ]
     grunt.registerTask 'default',[
         'build',
-        'copy:release',
-        'copy:static'
-        'copy:components'
+        'copy:debug',
         'configureProxies:dev_server',
         'connect',
         'watch',
     ]
     grunt.registerTask 'release',[
         'build',
+        'useminPrepare',
         'uglify',
+        'cssmin',
+        'filerev',
+        'usemin',
         'copy:release',
-        'copy:static'
     ]

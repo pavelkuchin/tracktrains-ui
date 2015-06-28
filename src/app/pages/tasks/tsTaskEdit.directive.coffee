@@ -31,8 +31,6 @@ tsTaskEdit = () ->
 # XXX Needs refactoring because this function is in the global scope
 tsTaskEditLink = (scope, element, attrs) ->
   scope.opened = false
-  scope.dateOptions =
-    startingDay: 1
   scope.minDate = new Date()
 
   scope.toggleDatepicker = ($event) ->

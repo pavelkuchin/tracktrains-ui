@@ -7,7 +7,7 @@ html(class="no-js", ng-app="trackSeatsApp")
     meta(name='description', content='Train tickets tracker')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     base(href='/')
-    script(type="text/javascript", src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular.min.js")
+    script(type="text/javascript", src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular.js")
     link(
       rel="stylesheet"
       href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css"
@@ -20,7 +20,9 @@ html(class="no-js", ng-app="trackSeatsApp")
       rel="stylesheet"
       href="//cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.8.0/loading-bar.min.css"
     )
+    // build:css app.min.css
     link(rel="stylesheet", href="app.css")
+    // endbuild
   body
     nav.navbar.navbar-default(ng-controller="LayoutNavigationCtrl as nav")
       .container-fluid
@@ -125,9 +127,12 @@ html(class="no-js", ng-app="trackSeatsApp")
       h3.text-center Loading...
     footer.ts-footer © 2015 TrackSeats.info
 
-    script(type="text/javascript", src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js")
-    script(type="text/javascript", src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular-messages.min.js")
-    script(type="text/javascript", src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.0/ui-bootstrap-tpls.min.js")
-    script(type="text/javascript", src="//cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.8.0/loading-bar.min.js")
-    script(type="text/javascript", src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/3.9.3/lodash.min.js")
+    script(type="text/javascript", src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.js")
+    script(type="text/javascript", src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular-messages.js")
+    script(type="text/javascript", src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.0/ui-bootstrap.js")
+    script(type="text/javascript", src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.0/ui-bootstrap-tpls.js")
+    script(type="text/javascript", src="//cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.8.0/loading-bar.js")
+    script(type="text/javascript", src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/3.9.3/lodash.js")
+    // build:js app.min.js
     script(type="text/javascript", src="app.js")
+    // endbuild
