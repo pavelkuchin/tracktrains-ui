@@ -108,8 +108,9 @@ module.exports = (grunt) ->
             configFile: 'karma.conf.coffee'
         coveralls:
           options:
-            coverageDir: './coveralls'
-            recursive: true
+            force: false
+          test:
+            src: 'coveralls/PhantomJS*/*.info',
 
     # Load plugins
     grunt.loadNpmTasks 'grunt-contrib-jade'
@@ -129,14 +130,14 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-connect-proxy'
 
     grunt.loadNpmTasks 'grunt-karma'
-    grunt.loadNpmTasks 'grunt-karma-coveralls'
+    grunt.loadNpmTasks 'grunt-coveralls'
 
     grunt.loadNpmTasks 'grunt-usemin'
 
     # Tasks
     grunt.registerTask 'test',[
         'karma'
-#        'coveralls'
+        'coveralls'
     ]
     grunt.registerTask 'build',[
         'clean',
