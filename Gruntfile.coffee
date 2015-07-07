@@ -62,7 +62,7 @@ module.exports = (grunt) ->
             algorithm: 'md5'
             length: 8
           release:
-            src: 'release/app.min.{css,js}'
+            src: ['release/app.min.{css,js}', 'release/app.templates.min.{css,js}']
         useminPrepare:
           html: 'build/index.html'
           options:
@@ -110,7 +110,12 @@ module.exports = (grunt) ->
           options:
             force: false
           test:
-            src: 'coveralls/PhantomJS*/*.info',
+            src: 'coveralls/PhantomJS*/*.info'
+        ngtemplates:
+          trackSeatsApp:
+            cwd: 'build'
+            src: 'app/**/*.html'
+            dest: 'build/app.templates.js'
 
     # Load plugins
     grunt.loadNpmTasks 'grunt-contrib-jade'
@@ -134,32 +139,35 @@ module.exports = (grunt) ->
 
     grunt.loadNpmTasks 'grunt-usemin'
 
+    grunt.loadNpmTasks 'grunt-angular-templates'
+
     # Tasks
     grunt.registerTask 'test',[
         'karma'
 #        'coveralls'
     ]
     grunt.registerTask 'build',[
-        'clean',
-        'jade',
-        'coffee',
-        'concat:sass',
+        'clean'
+        'jade'
+        'ngtemplates'
+        'coffee'
+        'concat:sass'
         'sass'
-        'karma',
+        'karma'
     ]
     grunt.registerTask 'default',[
-        'build',
-        'copy:debug',
-        'configureProxies:dev_server',
-        'connect',
-        'watch',
+        'build'
+        'copy:debug'
+        'configureProxies:dev_server'
+        'connect'
+        'watch'
     ]
     grunt.registerTask 'release',[
-        'build',
-        'useminPrepare',
-        'uglify',
-        'cssmin',
-        'filerev',
-        'usemin',
-        'copy:release',
+        'build'
+        'useminPrepare'
+        'uglify'
+        'cssmin'
+        'filerev'
+        'usemin'
+        'copy:release'
     ]
