@@ -1,5 +1,5 @@
 configure = ($httpProvider, $stateProvider, $urlRouterProvider, $locationProvider, AUTH_EVENTS) ->
-  $httpProvider.interceptors.push ($q, $rootScope, AlertsService) ->
+  responseInterceptor = ($q, $rootScope, AlertsService) ->
     'responseError': (rejection) ->
       if rejection.status == 401
         $rootScope.$emit(AUTH_EVENTS.UNAUTHENTICATED)
@@ -14,6 +14,8 @@ configure = ($httpProvider, $stateProvider, $urlRouterProvider, $locationProvide
           AlertsService.TYPE.ERROR
         )
       $q.reject(rejection)
+
+  $httpProvider.interceptors.push ['$q', '$rootScope', 'AlertsService', responseInterceptor]
 
   $httpProvider.defaults.xsrfCookieName = 'csrftoken'
   $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken'
