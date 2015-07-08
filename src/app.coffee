@@ -28,7 +28,7 @@ configure = ($httpProvider, $stateProvider, $urlRouterProvider, $locationProvide
       template: "<ui-view/>"
       abstract: true
       resolve:
-        session: (AuthService) -> AuthService.checkAuthentication()
+        session: ["AuthService", (AuthService) -> AuthService.checkAuthentication()]
     )
     .state("landing",
       parent: "root"
