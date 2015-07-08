@@ -1,10 +1,4 @@
-angular.module 'trackSeatsApp', [
-    'angular-loading-bar'
-    'ui.bootstrap'
-    'ui.router',
-    'ngMessages'
-  ]
-.config ($httpProvider, $stateProvider, $urlRouterProvider, $locationProvider, AUTH_EVENTS) ->
+configure = ($httpProvider, $stateProvider, $urlRouterProvider, $locationProvider, AUTH_EVENTS) ->
   $httpProvider.interceptors.push ($q, $rootScope, AlertsService) ->
     'responseError': (rejection) ->
       if rejection.status == 401
@@ -60,7 +54,8 @@ angular.module 'trackSeatsApp', [
       templateUrl: "app/pages/signup/pages.signup.template.html"
       controller: "PagesSignupCtrl as signup"
     )
-.run (AUTH_EVENTS, NAVIGATION, $rootScope, $state, AuthService, AlertsService) ->
+
+initialization = (AUTH_EVENTS, NAVIGATION, $rootScope, $state, AuthService, AlertsService) ->
   $rootScope.$on(AUTH_EVENTS.UNAUTHENTICATED, () ->
     AuthService.resetSession()
     $state.go(NAVIGATION.UNAUTHENTICATED_DEFAULT_STATE)
@@ -80,3 +75,14 @@ angular.module 'trackSeatsApp', [
             toState.parent != 'root'
           event.preventDefault()
   )
+
+angular.module 'trackSeatsApp', [
+    'angular-loading-bar'
+    'ui.bootstrap'
+    'ui.router',
+    'ngMessages'
+  ]
+.config ['$httpProvider', '$stateProvider', '$urlRouterProvider',
+         '$locationProvider', 'AUTH_EVENTS', configure]
+.run ['AUTH_EVENTS' ,'NAVIGATION' ,'$rootScope' ,'$state',
+      'AuthService', 'AlertsService', initialization]
