@@ -23,6 +23,7 @@
     "grunt-filerev": "^2.3.1",
     "grunt-karma": "^0.10.1",
     "grunt-sass": "^0.17.0",
+    "grunt-text-replace": "^0.4.0",
     "grunt-usemin": "^3.0.0",
     "ibrik": "^2.0.0",
     "jasmine": "^2.2.1",
