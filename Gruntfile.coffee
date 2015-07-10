@@ -122,7 +122,7 @@ module.exports = (grunt) ->
             overwrite: true
             replacements: [
               from: '/v1/'
-              to: 'api.trackseats.info/v1/'
+              to: '//api.trackseats.info/v1/'
             ]
 
     # Load plugins
