@@ -116,7 +116,6 @@ module.exports = (grunt) ->
             cwd: 'build'
             src: 'app/**/*.html'
             dest: 'build/app.templates.js'
-            ]
 
     # Load plugins
     grunt.loadNpmTasks 'grunt-contrib-jade'
