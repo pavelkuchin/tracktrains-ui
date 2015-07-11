@@ -116,13 +116,6 @@ module.exports = (grunt) ->
             cwd: 'build'
             src: 'app/**/*.html'
             dest: 'build/app.templates.js'
-        replace:
-          releaseApi:
-            src: ['build/app.js']
-            overwrite: true
-            replacements: [
-              from: '/v1/'
-              to: '//api.trackseats.info/v1/'
             ]
 
     # Load plugins
@@ -148,7 +141,6 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-usemin'
 
     grunt.loadNpmTasks 'grunt-angular-templates'
-    grunt.loadNpmTasks 'grunt-text-replace'
 
     # Tasks
     grunt.registerTask 'test',[
@@ -173,7 +165,6 @@ module.exports = (grunt) ->
     ]
     grunt.registerTask 'release',[
         'build'
-        'replace:releaseApi'
         'useminPrepare'
         'uglify'
         'cssmin'
