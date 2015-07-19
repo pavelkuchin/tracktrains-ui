@@ -50,7 +50,7 @@ tsTaskEditLink = (scope, element, attrs) ->
 
   scope.internalGetTrains = (train) ->
     params =
-      date: scope.departure_date
+      date: scope.departure_date.toLocaleDateString('en-US')
       departure: scope.departure_point
       destination: scope.destination_point
       train: train.toUpperCase()
