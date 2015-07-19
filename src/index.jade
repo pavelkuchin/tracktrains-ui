@@ -64,7 +64,7 @@ html(class="no-js", ng-app="trackSeatsApp")
                       aria-hidden="true"
                     )
                     | Settings
-                li
+                li(ng-if="nav.session.user.invitesCounter")
                   a(ui-sref="settings({'#': 'inviteFriendAnchor'})")
                     span.glyphicon.glyphicon-send.ts-glyphicon(
                       aria-hidden="true"
