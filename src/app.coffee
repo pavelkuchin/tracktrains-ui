@@ -24,6 +24,10 @@ configure = ($httpProvider, $stateProvider, $urlRouterProvider, $locationProvide
 
   $urlRouterProvider.otherwise("/")
 
+  ###
+  If state inherits by the root state then it will follow standart auth rules.
+  If not then everyone can access it.
+  ###
   $stateProvider
     .state("root",
       url: ""
@@ -59,7 +63,8 @@ configure = ($httpProvider, $stateProvider, $urlRouterProvider, $locationProvide
 initialization = (AUTH_EVENTS, NAVIGATION, $rootScope, $state, AuthService, AlertsService) ->
   $rootScope.$on(AUTH_EVENTS.UNAUTHENTICATED, () ->
     AuthService.resetSession()
-    $state.go(NAVIGATION.UNAUTHENTICATED_DEFAULT_STATE)
+    if $state.current.parent == 'root'
+      $state.go(NAVIGATION.UNAUTHENTICATED_DEFAULT_STATE)
   )
   $rootScope.$on(AUTH_EVENTS.AUTHENTICATED, () ->
     $state.go(NAVIGATION.AUTHENTICATED_DEFAULT_STATE)
