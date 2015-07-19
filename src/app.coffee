@@ -51,7 +51,6 @@ configure = ($httpProvider, $stateProvider, $urlRouterProvider, $locationProvide
       controller: "PagesSettingsCtrl as settings"
     )
     .state("signup",
-      parent: "root"
       url: "/signup/:invite/"
       templateUrl: "app/pages/signup/pages.signup.template.html"
       controller: "PagesSignupCtrl as signup"
