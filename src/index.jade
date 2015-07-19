@@ -125,7 +125,8 @@ html(class="no-js", ng-app="trackSeatsApp")
         | {{ alert.msg }}
     section.container-fluid(ui-view)
       h3.text-center Loading...
-    footer.ts-footer © 2015 TrackSeats.info
+    footer.ts-footer
+      a(href="mailto:webmaster@trackseats.info") © 2015 TrackSeats.info
 
     script(type="text/javascript", src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.js")
     script(type="text/javascript", src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular-messages.js")
